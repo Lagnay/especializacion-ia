@@ -1,27 +1,67 @@
-# Plantilla de repositorio base — Especialización en Desarrollo con IA Generativa (Accenture)
+# Laboratorio de integración con IA
 
-Esta es la estructura base que vas a usar como punto de partida para tu proyecto en este programa. Es la misma estructura que vas a ir ampliando bloque a bloque, hasta llegar a la aplicación completa que entregas en el Gate 3.
+Repositorio de práctica de la Especialización en Desarrollo con IA Generativa. Contiene la estructura base y las dependencias para trabajar con HTTP y la API de Gemini; todavía no incluye una aplicación ejecutable.
 
-## Cómo empezar
+## Requisitos
 
-Estos pasos se completan de forma progresiva a lo largo de la Unidad U1.2, no todos el mismo día:
+- Git y acceso a Internet para obtener el repositorio y sus dependencias.
+- Python instalado. Entorno comprobado: Windows con Python 3.14.7. La compatibilidad con otros sistemas y versiones está pendiente de comprobación.
 
-1. Descarga este archivo comprimido (adjunto en la plataforma) y descomprímelo en tu computador. Inicializa el control de versiones sobre esa carpeta y registra tu primer commit con esta estructura base, tal como llegó, antes de modificar nada.
-2. Crea tu entorno virtual de Python (por ejemplo, con `venv`) y actívalo.
-3. Instala las dependencias que necesites y regístralas en `requirements.txt` (al inicio puede estar vacío o con muy pocas).
-4. Copia `.env.example` a un archivo nuevo llamado `.env`, y completa ahí tus credenciales reales (llaves de API, tokens). El archivo `.env` nunca se sube al repositorio: ya está excluido en `.gitignore`.
+## Instalación en Windows — PowerShell
 
-## Estructura de carpetas
+En una terminal sin otro entorno virtual activo, clonar en una carpeta nueva:
 
-- `src/` : todo el código fuente de tu proyecto va aquí.
-- `docs/` : documentación técnica del proyecto (diagramas, decisiones de arquitectura, notas).
-- `tests/` : pruebas de tu código (las vas a usar más adelante en el programa, cuando el proyecto lo requiera).
-- `requirements.txt` : dependencias de Python de tu proyecto, para que cualquier otra persona pueda reconstruir tu entorno con un solo comando.
-- `.env.example` : plantilla de las variables de entorno que tu proyecto necesita, sin valores reales. Tu archivo `.env` real (con tus credenciales) nunca se commitea.
-- `.gitignore` : le dice a Git qué archivos y carpetas ignorar (entre ellos, tu entorno virtual y tu archivo `.env`).
+```powershell
+git clone https://github.com/Lagnay/especializacion-ia.git especializacion-ia
+cd especializacion-ia
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
 
-## Reglas que se mantienen durante todo el programa
+Si PowerShell bloquea el script de activación, ejecutar `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process`, activar el entorno y continuar la instalación.
 
-- Ningún secreto (contraseña, llave de API, token) va escrito directamente en el código ni en ningún archivo que se suba al repositorio.
-- Cada proyecto nuevo tiene su propio entorno virtual: no se comparten dependencias entre proyectos distintos.
-- Todo el trabajo que se entrega en este programa vive en un repositorio de GitHub, sin excepción.
+## Instalación en macOS / Linux / WSL
+
+Procedimiento de referencia, pendiente de comprobación con las versiones registradas. Requiere Git y Python 3 con soporte para venv. En WSL, utilizar una carpeta del sistema de archivos de Linux y crear un entorno nuevo, separado del de Windows.
+
+En una terminal sin otro entorno activo:
+
+```bash
+git clone https://github.com/Lagnay/especializacion-ia.git especializacion-ia
+cd especializacion-ia
+python3 --version
+python3 -m venv venv
+source venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+## Comprobación
+
+Con el entorno activo:
+
+```sh
+python -c "import sys; print(sys.executable); print('Entorno virtual:', sys.prefix != sys.base_prefix)"
+python -m pip check
+python -c "import requests; from google import genai; from dotenv import load_dotenv; print('Importaciones OK')"
+```
+
+El ejecutable debe pertenecer al entorno creado. Se esperan `Entorno virtual: True`, `No broken requirements found.` e `Importaciones OK`.
+
+Estas comprobaciones no requieren credenciales ni envían solicitudes al proveedor. `python-dotenv` es el paquete instalado, `dotenv` el módulo importado y `load_dotenv` una de sus funciones.
+
+## Estructura
+
+| Ruta | Contenido |
+| --- | --- |
+| `src/` | Código fuente |
+| `tests/` | Pruebas |
+| `docs/` | Documentación y resultados de verificación |
+| `requirements.txt` | Paquetes y versiones del entorno |
+| `.env.example` | Plantilla de configuración sin credenciales reales |
+
+El entorno `venv/` y la configuración local `.env` están excluidos de Git. Cada instalación debe crear su propio entorno; las credenciales no se publican.
+
+## Verificación registrada
+
+[Reconstrucción local en Windows](docs/VERIFICACION_ENTORNO.md): instalación desde una copia del repositorio publicado, seguida de comprobaciones de dependencias e importaciones.
