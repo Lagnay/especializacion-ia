@@ -36,6 +36,10 @@ source venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
+## Configuración de Gemini
+
+Crear un archivo local `.env` tomando `.env.example` como referencia y completar `GEMINI_API_KEY` con una credencial propia. Si `.env` ya existe, conservar su contenido y comprobar el nombre de la variable. La clave real sólo se guarda en la configuración local; `.env.example` mantiene un valor ficticio.
+
 ## Comprobación
 
 Con el entorno activo:
