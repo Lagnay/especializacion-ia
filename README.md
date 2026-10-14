@@ -69,3 +69,5 @@ El entorno `venv/` y la configuración local `.env` están excluidos de Git. Cad
 ## Verificación registrada
 
 [Reconstrucción local en Windows](docs/VERIFICACION_ENTORNO.md): instalación desde una copia del repositorio publicado, seguida de comprobaciones de dependencias e importaciones.
+
+[Primera petición autenticada a Gemini](docs/ActividadCore_Bloque4/EVIDENCIA_PETICION_AUTENTICADA.md): consulta enviada desde Postman, estado HTTP 200 OK, cuerpo de respuesta completo y captura de la prueba.
