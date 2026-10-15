@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def obtener_dato_de_prueba(pregunta):
+def armar_peticion(pregunta):
     api_key = os.getenv("GEMINI_API_KEY")
     modelo = "gemini-3.5-flash-lite"
 
@@ -30,6 +30,9 @@ def obtener_dato_de_prueba(pregunta):
         ]
     }
 
+    return url, headers, body
+
+def enviar_peticion(url, headers, body):
     respuesta_http = requests.post(
         url,
         headers=headers,
@@ -38,11 +41,18 @@ def obtener_dato_de_prueba(pregunta):
     )
 
     respuesta_http.raise_for_status()
-    datos = respuesta_http.json()
+    return respuesta_http.json()
+
+def extraer_texto(datos):
     return datos["candidates"][0]["content"]["parts"][0]["text"]
 
+def obtener_dato_de_prueba(pregunta):
+    url, headers, body = armar_peticion(pregunta)
+    datos = enviar_peticion(url, headers, body)
+    return extraer_texto(datos)
 
-resultado = obtener_dato_de_prueba(
-    "Confirma en una frase corta que esta conexión funciona, explicándome qué es el alma según la ciencia y la filosofía."
-)
-print(resultado)
+if __name__ == "__main__":
+    resultado = obtener_dato_de_prueba(
+        "Confirma en una frase corta que esta conexión funciona, explicándome qué es el alma según la ciencia y la filosofía."
+    )
+    print(resultado)
