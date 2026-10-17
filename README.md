@@ -1,6 +1,6 @@
 # Laboratorio de integración con IA
 
-Repositorio de práctica de la Especialización en Desarrollo con IA Generativa. Contiene la estructura base y las dependencias para trabajar con HTTP y la API de Gemini; todavía no incluye una aplicación ejecutable.
+Repositorio de práctica de la Especialización en Desarrollo con IA Generativa. Incluye un módulo Python que consulta la API de Gemini, extrae el texto generado, valida la entrada y maneja errores previsibles, además de ejercicios de aprendizaje.
 
 ## Requisitos
 
@@ -39,6 +39,28 @@ python -m pip install -r requirements.txt
 ## Configuración de Gemini
 
 Crear un archivo local `.env` tomando `.env.example` como referencia y completar `GEMINI_API_KEY` con una credencial propia. Si `.env` ya existe, conservar su contenido y comprobar el nombre de la variable. La clave real sólo se guarda en la configuración local; `.env.example` mantiene un valor ficticio.
+
+## Uso
+
+Con el entorno virtual activo y la credencial configurada en `.env`, ejecutar:
+
+```powershell
+python src/consumir_gemini.py
+```
+
+El programa envía la pregunta de ejemplo definida al final del archivo. La función `obtener_dato_de_prueba(pregunta)` también puede importarse desde otro módulo. El texto generado puede variar entre ejecuciones.
+
+## Pruebas locales del módulo
+
+Desde la raíz del repositorio y con el entorno virtual activo:
+
+```powershell
+python -m "src.Prácticas.practica_extraccion"
+python -m "src.Prácticas.practica_json_invalido"
+python -m "src.Prácticas.practica_timeout"
+```
+
+Estas pruebas comprueban extracción y manejo de fallos preparados o simulados; no envían peticiones a Gemini. La ejecución indicada en «Uso» comprueba la conexión real.
 
 ## Comprobación
 
