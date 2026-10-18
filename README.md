@@ -42,13 +42,20 @@ Crear un archivo local `.env` tomando `.env.example` como referencia y completar
 
 ## Uso
 
-Con el entorno virtual activo y la credencial configurada en `.env`, ejecutar:
+Desde la raíz del repositorio, con el entorno virtual activo
+y la credencial configurada en `.env`, ejecutar:
 
 ```powershell
-python src/consumir_gemini.py
+python -m src.main
 ```
 
-El programa envía la pregunta de ejemplo definida al final del archivo. La función `obtener_dato_de_prueba(pregunta)` también puede importarse desde otro módulo. El texto generado puede variar entre ejecuciones.
+El programa envía la pregunta de ejemplo definida en `src/main.py`
+y muestra el texto generado, el consumo de tokens y una estimación
+a tarifas de pago. Esta estimación no representa necesariamente
+un cargo: depende del nivel de servicio utilizado.
+
+Las funciones reutilizables se encuentran en `src/consumir_gemini.py`.
+La respuesta y su consumo pueden variar entre ejecuciones.
 
 ## Pruebas locales del módulo
 
