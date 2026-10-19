@@ -95,8 +95,14 @@ Estas comprobaciones no requieren credenciales ni envían solicitudes al proveed
 
 El entorno `venv/` y la configuración local `.env` están excluidos de Git. Cada instalación debe crear su propio entorno; las credenciales no se publican.
 
-## Verificación registrada
+## Documentación y evidencias
 
 [Reconstrucción local en Windows](docs/VERIFICACION_ENTORNO.md): instalación desde una copia del repositorio publicado, seguida de comprobaciones de dependencias e importaciones.
 
 [Primera petición autenticada a Gemini](docs/ActividadCore_Bloque4/EVIDENCIA_PETICION_AUTENTICADA.md): consulta enviada desde Postman, estado HTTP 200 OK, cuerpo de respuesta completo y captura de la prueba.
+
+[Validación, manejo de errores y consulta real](docs/Bloque%207/evidencia_credencial_validacion_y_consulta.png).
+
+[Diagrama de arquitectura](docs/Bloque%208/diagrama_arquitectura.drawio.png).
+
+[Decisión de arquitectura y comparación de modelos](docs/Bloque%209/decision-arquitectura.md).

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def armar_peticion(pregunta):
+def armar_peticion(pregunta, modelo="gemini-3.5-flash-lite"):
     if not isinstance(pregunta, str):
         raise TypeError("La pregunta debe ser texto.")
 
@@ -17,7 +17,6 @@ def armar_peticion(pregunta):
         )
     
     api_key = os.getenv("GEMINI_API_KEY")
-    modelo = "gemini-3.5-flash-lite"
 
     url = (
     f"https://generativelanguage.googleapis.com/"
