@@ -1,4 +1,6 @@
 import os
+import json
+import re
 
 import requests
 from dotenv import load_dotenv
@@ -7,7 +9,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def armar_peticion(pregunta, modelo="gemini-3.5-flash-lite"):
+def armar_peticion(
+    pregunta,
+    modelo="gemini-3.5-flash-lite",
+    system_instruction=None,
+    response_schema=None,
+):
     if not isinstance(pregunta, str):
         raise TypeError("La pregunta debe ser texto.")
 
@@ -15,12 +22,12 @@ def armar_peticion(pregunta, modelo="gemini-3.5-flash-lite"):
         raise ValueError(
             "La pregunta no puede estar vacía ni contener solo espacios."
         )
-    
+
     api_key = os.getenv("GEMINI_API_KEY")
 
     url = (
-    f"https://generativelanguage.googleapis.com/"
-    f"v1beta/models/{modelo}:generateContent"
+        "https://generativelanguage.googleapis.com/"
+        f"v1beta/models/{modelo}:generateContent"
     )
 
     headers = {
@@ -30,12 +37,36 @@ def armar_peticion(pregunta, modelo="gemini-3.5-flash-lite"):
     body = {
         "contents": [
             {
-                "parts": [
-                    {"text": pregunta}
-                ]
+                "parts": [{"text": pregunta}]
             }
         ]
     }
+
+    if system_instruction is not None:
+        if not isinstance(system_instruction, str):
+            raise TypeError("La instrucción de sistema debe ser texto.")
+
+        if not system_instruction.strip():
+            raise ValueError(
+                "La instrucción de sistema no puede estar vacía."
+            )
+
+        body["systemInstruction"] = {
+            "parts": [{"text": system_instruction}]
+        }
+
+    if response_schema is not None:
+        if not isinstance(response_schema, dict):
+            raise TypeError("El esquema de respuesta debe ser un diccionario.")
+
+        body["generationConfig"] = {
+            "responseFormat": {
+                "text": {
+                    "mimeType": "APPLICATION_JSON",
+                    "schema": response_schema,
+                }
+            }
+        }
 
     return url, headers, body
 
@@ -86,6 +117,34 @@ def extraer_texto(datos):
         raise RuntimeError(
             "La respuesta no contiene candidatos o partes suficientes."
         ) from error
+
+def parsear_respuesta_json(texto):
+    texto_limpio = texto.strip()
+
+    texto_limpio = re.sub(
+        r"^```(?:json)?\s*",
+        "",
+        texto_limpio,
+    )
+    texto_limpio = re.sub(
+        r"\s*```$",
+        "",
+        texto_limpio,
+    )
+
+    try:
+        datos = json.loads(texto_limpio)
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            "La respuesta del modelo no es JSON válido."
+        ) from error
+
+    if not isinstance(datos, dict):
+        raise ValueError(
+            "La respuesta debe contener un objeto JSON."
+        )
+
+    return datos
 
 def calcular_costo(datos, precio_entrada, precio_salida, precio_cache):
 

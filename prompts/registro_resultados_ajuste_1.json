@@ -1,0 +1,178 @@
+{
+  "fecha": "2026-10-19T16:46:58-03:00",
+  "modelo_solicitado": "gemini-3.5-flash-lite",
+  "criterio": "JSON interpretable como objeto, campos obligatorios, tipos, valores permitidos, límites numéricos y límite de palabras cuando corresponda. No constituye una evaluación automática de la exactitud del contenido.",
+  "prompts": {
+    "clasificar_consulta": {
+      "instruccion": "Clasifica el mensaje del usuario. Responde únicamente con un objeto JSON válido, sin explicaciones ni bloques de Markdown. Incluye 'categoria' y 'confianza'. Las categorías permitidas son: 'soporte_tecnico' para problemas técnicos, 'compras' para consultas de compra y 'otro' para los demás mensajes. La confianza debe ser un número entre 0 y 1.",
+      "entrada": "Necesito restablecer mi contraseña, pero no recibo el correo de verificación.",
+      "response_schema": {
+        "type": "object",
+        "properties": {
+          "categoria": {
+            "type": "string",
+            "enum": [
+              "soporte_tecnico",
+              "compras",
+              "otro"
+            ]
+          },
+          "confianza": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "categoria",
+          "confianza"
+        ]
+      },
+      "limites_palabras": {},
+      "intentos": 3,
+      "exitos": 3,
+      "fallos": 0,
+      "resultados": [
+        {
+          "intento": 1,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"categoria\": \"soporte_tecnico\",\n  \"confianza\": 0.99\n}",
+          "datos_interpretados": {
+            "categoria": "soporte_tecnico",
+            "confianza": 0.99
+          }
+        },
+        {
+          "intento": 2,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"categoria\": \"soporte_tecnico\",\n  \"confianza\": 0.99\n}",
+          "datos_interpretados": {
+            "categoria": "soporte_tecnico",
+            "confianza": 0.99
+          }
+        },
+        {
+          "intento": 3,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"categoria\": \"soporte_tecnico\",\n  \"confianza\": 0.99\n}",
+          "datos_interpretados": {
+            "categoria": "soporte_tecnico",
+            "confianza": 0.99
+          }
+        }
+      ]
+    },
+    "extraer_pedido": {
+      "instruccion": "Extrae el producto y la cantidad solicitada del mensaje del usuario. Responde únicamente con un objeto JSON válido, sin explicaciones ni bloques de Markdown. Incluye 'producto', como texto, y 'cantidad', como número entero positivo. Conserva la unidad de cantidad indicada: si se piden paquetes, cuenta paquetes, sin convertirlos a kilos ni a otras unidades.",
+      "entrada": "Necesito 4 paquetes de arroz.",
+      "response_schema": {
+        "type": "object",
+        "properties": {
+          "producto": {
+            "type": "string"
+          },
+          "cantidad": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "producto",
+          "cantidad"
+        ]
+      },
+      "limites_palabras": {},
+      "intentos": 3,
+      "exitos": 3,
+      "fallos": 0,
+      "resultados": [
+        {
+          "intento": 1,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"producto\": \"paquetes de arroz\",\n  \"cantidad\": 4\n}",
+          "datos_interpretados": {
+            "producto": "paquetes de arroz",
+            "cantidad": 4
+          }
+        },
+        {
+          "intento": 2,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"producto\": \"arroz\",\n  \"cantidad\": 4\n}",
+          "datos_interpretados": {
+            "producto": "arroz",
+            "cantidad": 4
+          }
+        },
+        {
+          "intento": 3,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"producto\": \"arroz\",\n  \"cantidad\": 4\n}",
+          "datos_interpretados": {
+            "producto": "arroz",
+            "cantidad": 4
+          }
+        }
+      ]
+    },
+    "resumir_mensaje": {
+      "instruccion": "Resume el mensaje del usuario en español. El resumen debe tener como máximo 23 palabras; procura usar entre 18 y 20 para dejar margen. Conserva los hechos principales y las solicitudes sin inventar información ni añadir recomendaciones. Mantén la intención del mensaje: no conviertas una consulta en una exigencia. Responde únicamente con un objeto JSON válido, sin explicaciones ni bloques de Markdown. Incluye una clave 'resumen' cuyo valor sea texto.",
+      "entrada": "Mi pedido llegó ayer con dos días de retraso, encima cuando hablé con atención al cliente, no me ayudaron y luego dejaron de contestar, fue terrible la experiencia. El producto está en buen estado, pero necesito saber qué puedo hacer para que me cubran el desgaste emocional, además de que me envíen la factura por correo.",
+      "response_schema": {
+        "type": "object",
+        "properties": {
+          "resumen": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "resumen"
+        ]
+      },
+      "limites_palabras": {
+        "resumen": 23
+      },
+      "intentos": 3,
+      "exitos": 0,
+      "fallos": 3,
+      "resultados": [
+        {
+          "intento": 1,
+          "valido": false,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"resumen\": \"El pedido llegó con retraso y mala atención al cliente. El producto está bien, pero consulta cómo cubrir el desgaste emocional y pide la factura.\"\n}",
+          "datos_interpretados": {
+            "resumen": "El pedido llegó con retraso y mala atención al cliente. El producto está bien, pero consulta cómo cubrir el desgaste emocional y pide la factura."
+          },
+          "error": "'resumen' tiene 25 palabras; el máximo es 23."
+        },
+        {
+          "intento": 2,
+          "valido": false,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"resumen\": \"El pedido llegó tarde con mala atención. El producto está bien, pero consulta cómo cubrir el desgaste emocional y pide la factura por correo.\"\n}",
+          "datos_interpretados": {
+            "resumen": "El pedido llegó tarde con mala atención. El producto está bien, pero consulta cómo cubrir el desgaste emocional y pide la factura por correo."
+          },
+          "error": "'resumen' tiene 24 palabras; el máximo es 23."
+        },
+        {
+          "intento": 3,
+          "valido": false,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\"resumen\": \"El pedido llegó tarde con mala atención al cliente. El producto está bien, pero solicita compensación por desgaste emocional y el envío de la factura.\"}",
+          "datos_interpretados": {
+            "resumen": "El pedido llegó tarde con mala atención al cliente. El producto está bien, pero solicita compensación por desgaste emocional y el envío de la factura."
+          },
+          "error": "'resumen' tiene 25 palabras; el máximo es 23."
+        }
+      ]
+    }
+  }
+}

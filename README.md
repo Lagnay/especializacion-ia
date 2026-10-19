@@ -106,3 +106,5 @@ El entorno `venv/` y la configuración local `.env` están excluidos de Git. Cad
 [Diagrama de arquitectura](docs/Bloque%208/diagrama_arquitectura.drawio.png).
 
 [Decisión de arquitectura y comparación de modelos](docs/Bloque%209/decision-arquitectura.md).
+
+[Banco de prompts y validación de consistencia](docs/Bloque%2010/VALIDACION_PROMPTS.md).

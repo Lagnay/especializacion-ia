@@ -1,0 +1,58 @@
+{
+  "fecha": "2026-10-19T17:19:18-03:00",
+  "modelo_solicitado": "gemini-3.5-flash-lite",
+  "criterio": "JSON interpretable como objeto, campos obligatorios, tipos, valores permitidos, límites numéricos y límite de palabras cuando corresponda. No constituye una evaluación automática de la exactitud del contenido.",
+  "prompts": {
+    "resumir_mensaje": {
+      "instruccion": "Resume el mensaje del usuario en español como una nota breve de registro. Procura usar entre 12 y 18 palabras; el límite absoluto es de 23 palabras. Prioriza los problemas y las gestiones solicitadas. Elimina introducciones, repeticiones y detalles secundarios. Conserva la intención original sin inventar hechos ni añadir recomendaciones. Responde únicamente con un objeto JSON que contenga la clave 'resumen'. Ejemplo de entrada: El mensajero no llegó. Llamé tres veces sin respuesta. Quiero reprogramar la entrega y recibir confirmación. Ejemplo de salida: {\"resumen\": \"Entrega incumplida y llamadas sin respuesta; solicita reprogramación y confirmación.\"} Aplica ese estilo al mensaje del usuario.",
+      "entrada": "Mi pedido llegó ayer con dos días de retraso, encima cuando hablé con atención al cliente, no me ayudaron y luego dejaron de contestar, fue terrible la experiencia. El producto está en buen estado, pero necesito saber qué puedo hacer para que me cubran el desgaste emocional, además de que me envíen la factura por correo.",
+      "response_schema": {
+        "type": "object",
+        "properties": {
+          "resumen": {
+            "type": "string",
+            "description": "Nota breve de registro, preferiblemente de 12 a 18 palabras y nunca más de 23."
+          }
+        },
+        "required": [
+          "resumen"
+        ]
+      },
+      "limites_palabras": {
+        "resumen": 23
+      },
+      "intentos": 3,
+      "exitos": 3,
+      "fallos": 0,
+      "resultados": [
+        {
+          "intento": 1,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\"resumen\": \"Pedido con retraso, mala atención al cliente y falta de respuesta; solicita indemnización y envío de factura.\"}",
+          "datos_interpretados": {
+            "resumen": "Pedido con retraso, mala atención al cliente y falta de respuesta; solicita indemnización y envío de factura."
+          }
+        },
+        {
+          "intento": 2,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\n  \"resumen\": \"Pedido con retraso y mala atención; solicita compensación por desgaste emocional y envío de factura.\"\n}",
+          "datos_interpretados": {
+            "resumen": "Pedido con retraso y mala atención; solicita compensación por desgaste emocional y envío de factura."
+          }
+        },
+        {
+          "intento": 3,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\"resumen\": \"Pedido con retraso y mala atención al cliente; solicita compensación por desgaste emocional y envío de factura.\"}",
+          "datos_interpretados": {
+            "resumen": "Pedido con retraso y mala atención al cliente; solicita compensación por desgaste emocional y envío de factura."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "fecha": "2026-10-19T17:00:36-03:00",
+  "modelo_solicitado": "gemini-3.5-flash-lite",
+  "criterio": "JSON interpretable como objeto, campos obligatorios, tipos, valores permitidos, límites numéricos y límite de palabras cuando corresponda. No constituye una evaluación automática de la exactitud del contenido.",
+  "prompts": {
+    "resumir_mensaje": {
+      "instruccion": "Resume el mensaje del usuario en español en una sola frase de máximo 23 palabras. Utiliza redacción compacta, sin introducciones. Conserva los hechos esenciales y las solicitudes, sin inventar información ni añadir recomendaciones. No conviertas una consulta en una exigencia. Sigue el estilo compacto de este ejemplo independiente. Ejemplo de entrada: El técnico debía venir el lunes, faltó sin avisar y no respondió mis mensajes. Necesito otra fecha y confirmación por correo. Ejemplo de salida: {\"resumen\": \"El técnico faltó sin aviso y no respondió; se solicita reprogramación y confirmación por correo.\"} Ahora resume exclusivamente el mensaje del usuario.",
+      "entrada": "Mi pedido llegó ayer con dos días de retraso, encima cuando hablé con atención al cliente, no me ayudaron y luego dejaron de contestar, fue terrible la experiencia. El producto está en buen estado, pero necesito saber qué puedo hacer para que me cubran el desgaste emocional, además de que me envíen la factura por correo.",
+      "response_schema": {
+        "type": "object",
+        "properties": {
+          "resumen": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "resumen"
+        ]
+      },
+      "limites_palabras": {
+        "resumen": 23
+      },
+      "intentos": 3,
+      "exitos": 2,
+      "fallos": 1,
+      "resultados": [
+        {
+          "intento": 1,
+          "valido": false,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\"resumen\": \"El pedido llegó con retraso y hubo mala atención; el producto está bien, pero se solicita compensación emocional y el envío de la factura por correo.\"}",
+          "datos_interpretados": {
+            "resumen": "El pedido llegó con retraso y hubo mala atención; el producto está bien, pero se solicita compensación emocional y el envío de la factura por correo."
+          },
+          "error": "'resumen' tiene 26 palabras; el máximo es 23."
+        },
+        {
+          "intento": 2,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\"resumen\": \"El pedido llegó con retraso y hubo mala atención; se solicita compensación por desgaste emocional y el envío de la factura por correo.\"}",
+          "datos_interpretados": {
+            "resumen": "El pedido llegó con retraso y hubo mala atención; se solicita compensación por desgaste emocional y el envío de la factura por correo."
+          }
+        },
+        {
+          "intento": 3,
+          "valido": true,
+          "modelo_devuelto": "gemini-3.5-flash-lite",
+          "texto_generado": "{\"resumen\": \"El pedido llegó tarde y el servicio fue pésimo; se consulta por cobertura por desgaste emocional y envío de factura.\"}",
+          "datos_interpretados": {
+            "resumen": "El pedido llegó tarde y el servicio fue pésimo; se consulta por cobertura por desgaste emocional y envío de factura."
+          }
+        }
+      ]
+    }
+  }
+}
