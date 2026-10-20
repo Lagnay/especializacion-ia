@@ -20,14 +20,47 @@ todavía el modelo del proyecto integrador.
 
 La aplicación mantiene la arquitectura documentada en el Bloque 8:
 
-- [Ver diagrama](../Bloque%208/diagrama_arquitectura.drawio.png).
-- [Abrir editable de Draw.io](../Bloque%208/diagrama_arquitectura.drawio).
+- [Ver diagrama](diagrama_arquitectura.drawio.png).
+- [Abrir editable de Draw.io](diagrama_arquitectura.drawio).
+
+Estas copias conservan el diagrama del Bloque 8 utilizado
+como referencia para esta decisión.
 
 La selección del modelo se realiza mediante el parámetro
 `modelo` de `armar_peticion`. Si no se proporciona,
 se utiliza `gemini-3.5-flash-lite`.
 
 ## 3. Comparación de candidatos
+
+### Tabla comparativa
+
+Datos del registro comparativo documentado el 19-10-2026.
+Tabla incorporada el 20-10-2026 a partir de esas mediciones;
+no corresponde a una nueva ejecución.
+
+Los precios son las tarifas Standard de pago registradas
+en el documento, no necesariamente cargos reales de mi cuenta.
+
+| Criterio | Gemini 3.5 Flash-Lite | Gemini 3.6 Flash |
+| --- | --- | --- |
+| Costo por 1000 tokens de entrada sin caché | 0.000300 USD | 0.000750 USD |
+| Costo por 1000 tokens de salida, incluido razonamiento | 0.002500 USD | 0.003750 USD |
+| Costo por 1000 tokens de entrada en caché | 0.000030 USD | 0.000075 USD |
+| Latencia promedio observada | 1.668 segundos | 5.226 segundos |
+| Ejecuciones exitosas de la serie comparativa | 4 de 4 | 4 de 4 |
+| Costo promedio estimado por consulta de la serie | 0.000133225 USD | 0.003062438 USD |
+| Calidad observada en las tres pruebas adicionales | Cálculo y extracción correctos. En planificación, no integró adecuadamente todas las restricciones y preferencias. | Cálculo y extracción correctos. En planificación, reconoció mejor la obligación principal, pero añadió información no proporcionada y no propuso el plan completo. |
+
+La latencia y el costo promedio corresponden exclusivamente
+a las cuatro repeticiones de la pregunta sobre emoción y
+sentimiento. La calidad se evaluó manualmente mediante las
+pruebas adicionales de cálculo, extracción y planificación,
+descritas más abajo.
+
+Gemini 3.8 Flash se excluyó de esta comparación final por
+los timeouts y el error HTTP 503 observados durante las
+pruebas exploratorias. Sus resultados no forman parte
+de estos promedios.
 
 ### Tarifas utilizadas
 
