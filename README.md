@@ -9,36 +9,108 @@ Repositorio de práctica de la Especialización en Desarrollo con IA Generativa.
 
 ## Instalación en Windows — PowerShell
 
-En una terminal sin otro entorno virtual activo, clonar en una carpeta nueva:
+Requiere Git y Python instalados. Entorno comprobado:
+Windows con Python 3.14.7.
+
+Los siguientes comandos crean una carpeta de trabajo dentro
+del perfil del usuario. La carpeta de destino del clon
+`especializacion-ia` no debe existir previamente.
+Si se elige otro nombre, debe utilizarse también al entrar
+en ella.
 
 ```powershell
+if (Get-Command deactivate -ErrorAction SilentlyContinue) {
+    deactivate
+}
+
+New-Item -ItemType Directory -Path "$env:USERPROFILE\proyectos-ia" -Force
+Set-Location -LiteralPath "$env:USERPROFILE\proyectos-ia"
+
 git clone https://github.com/Lagnay/especializacion-ia.git especializacion-ia
-cd especializacion-ia
+Set-Location -LiteralPath ".\especializacion-ia"
+
+python --version
 python -m venv venv
+
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 .\venv\Scripts\Activate.ps1
+
 python -m pip install -r requirements.txt
 ```
 
-Si PowerShell bloquea el script de activación, ejecutar `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process`, activar el entorno y continuar la instalación.
+La política de ejecución se configura solamente para esta
+sesión de PowerShell. Al abrir otra terminal puede ser
+necesario repetir ese comando antes de activar el entorno.
+
+Continúa con «Configuración de Gemini» y después con «Uso».
 
 ## Instalación en macOS / Linux / WSL
 
-Procedimiento de referencia, pendiente de comprobación con las versiones registradas. Requiere Git y Python 3 con soporte para venv. En WSL, utilizar una carpeta del sistema de archivos de Linux y crear un entorno nuevo, separado del de Windows.
+Procedimiento de referencia, pendiente de comprobación.
+Requiere Git y Python 3 con soporte para entornos virtuales.
 
-En una terminal sin otro entorno activo:
+El entorno verificado utiliza Python 3.14.7 en Windows;
+no se garantiza compatibilidad con cualquier versión
+de Python ni se ha comprobado esta instalación en otros sistemas.
+
+En WSL, trabajar dentro del sistema de archivos de Linux
+y crear un entorno propio, separado del de Windows.
+
+La carpeta de destino `especializacion-ia` no debe existir.
+Si se elige otro nombre al clonar, utilizarlo también al entrar.
 
 ```bash
+if command -v deactivate >/dev/null 2>&1; then
+    deactivate
+fi
+
+mkdir -p "$HOME/proyectos-ia"
+cd "$HOME/proyectos-ia"
+
 git clone https://github.com/Lagnay/especializacion-ia.git especializacion-ia
 cd especializacion-ia
+
 python3 --version
 python3 -m venv venv
 source venv/bin/activate
+
 python -m pip install -r requirements.txt
 ```
 
+Continúa con «Configuración de Gemini» y después con «Uso».
+Los comandos que comienzan con `python` en las secciones
+siguientes se ejecutan con este entorno virtual activo.
+
 ## Configuración de Gemini
 
-Crear un archivo local `.env` tomando `.env.example` como referencia y completar `GEMINI_API_KEY` con una credencial propia. Si `.env` ya existe, conservar su contenido y comprobar el nombre de la variable. La clave real sólo se guarda en la configuración local; `.env.example` mantiene un valor ficticio.
+Se necesita una credencial propia de Gemini API.
+
+Desde la raíz del repositorio, crear `.env` a partir de
+la plantilla, únicamente si todavía no existe.
+
+En Windows — PowerShell:
+
+```powershell
+if (-not (Test-Path -LiteralPath ".env")) {
+    Copy-Item -LiteralPath ".env.example" -Destination ".env"
+}
+```
+
+En macOS / Linux / WSL, si `.env` todavía no existe:
+
+```bash
+cp .env.example .env
+```
+
+Abrir `.env` con un editor y reemplazar el valor ficticio
+de `GEMINI_API_KEY` por la credencial propia. Guardar el archivo.
+
+En Windows puede abrirse con `notepad .env`. Si el comando
+de Visual Studio Code está disponible, también puede
+utilizarse `code .env`.
+
+La credencial real permanece únicamente en la configuración
+local. `.env.example` conserva un valor ficticio.
 
 ## Uso
 
@@ -62,9 +134,9 @@ La respuesta y su consumo pueden variar entre ejecuciones.
 Desde la raíz del repositorio y con el entorno virtual activo:
 
 ```powershell
-python -m "src.Prácticas.practica_extraccion"
-python -m "src.Prácticas.practica_json_invalido"
-python -m "src.Prácticas.practica_timeout"
+python -m tests.comprobar_extraccion
+python -m tests.comprobar_json_invalido
+python -m tests.comprobar_timeout
 ```
 
 Estas pruebas comprueban extracción y manejo de fallos preparados o simulados; no envían peticiones a Gemini. La ejecución indicada en «Uso» comprueba la conexión real.
@@ -83,13 +155,60 @@ El ejecutable debe pertenecer al entorno creado. Se esperan `Entorno virtual: Tr
 
 Estas comprobaciones no requieren credenciales ni envían solicitudes al proveedor. `python-dotenv` es el paquete instalado, `dotenv` el módulo importado y `load_dotenv` una de sus funciones.
 
+## Banco de prompts
+
+Desde la raíz del repositorio, con el entorno activo
+y la credencial configurada:
+
+```powershell
+python -m prompts.test_consistencia
+```
+
+Realiza nueve consultas reales y actualiza
+`prompts/registro_resultados.json`.
+
+Para probar solamente el resumen:
+
+```powershell
+python -m prompts.test_consistencia resumir_mensaje
+```
+
+Realiza tres consultas y actualiza
+`prompts/registro_resultados_parcial.json`.
+
+Estas ejecuciones modifican los registros guardados.
+Los resultados pueden variar entre pruebas.
+
+## Comprobación de seguridad
+
+Desde la raíz del repositorio:
+
+```powershell
+git ls-files -- .env .env.example requirements.txt
+git check-ignore -v -- .env venv/Scripts/python.exe
+git --no-pager log --all --oneline -- .env
+git status -sb
+```
+
+Deben aparecer `.env.example` y `requirements.txt` como
+versionados, pero no `.env`. Las reglas de exclusión deben
+cubrir `.env` y `venv`. La consulta del historial de `.env`
+no debe devolver commits.
+
+Una instalación y ejecución principal sin modificar archivos
+versionados debe dejar limpio el estado de Git. Reejecutar
+el banco de prompts puede mostrar cambios esperados
+en sus registros.
+
 ## Estructura
 
 | Ruta | Contenido |
 | --- | --- |
-| `src/` | Código fuente |
-| `tests/` | Pruebas |
-| `docs/` | Documentación y resultados de verificación |
+| `src/` | Módulos de la aplicación y programa principal |
+| `src/practicas/` | Ejercicios y versiones utilizadas durante el aprendizaje |
+| `tests/` | Scripts de comprobación local del módulo |
+| `prompts/` | Banco de prompts, validación y registros de resultados |
+| `docs/` | Documentación, diagramas y evidencias |
 | `requirements.txt` | Paquetes y versiones del entorno |
 | `.env.example` | Plantilla de configuración sin credenciales reales |
 
@@ -97,14 +216,4 @@ El entorno `venv/` y la configuración local `.env` están excluidos de Git. Cad
 
 ## Documentación y evidencias
 
-[Reconstrucción local en Windows](docs/VERIFICACION_ENTORNO.md): instalación desde una copia del repositorio publicado, seguida de comprobaciones de dependencias e importaciones.
-
-[Primera petición autenticada a Gemini](docs/ActividadCore_Bloque4/EVIDENCIA_PETICION_AUTENTICADA.md): consulta enviada desde Postman, estado HTTP 200 OK, cuerpo de respuesta completo y captura de la prueba.
-
-[Validación, manejo de errores y consulta real](docs/Bloque%207/evidencia_credencial_validacion_y_consulta.png).
-
-[Diagrama de arquitectura](docs/Bloque%208/diagrama_arquitectura.drawio.png).
-
-[Decisión de arquitectura y comparación de modelos](docs/Bloque%209/decision-arquitectura.md).
-
-[Banco de prompts y validación de consistencia](docs/Bloque%2010/VALIDACION_PROMPTS.md).
+[Consultar el índice de documentación y evidencias](docs/INDICE_README.md).

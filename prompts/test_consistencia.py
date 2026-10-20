@@ -20,6 +20,17 @@ if __name__ == "__main__":
 
     nombres_solicitados = sys.argv[1:]
 
+    nombres_disponibles = [
+        prompt["nombre"] for prompt in BANCO_DE_PROMPTS
+    ]
+
+    for nombre in nombres_solicitados:
+        if nombre not in nombres_disponibles:
+            raise SystemExit(
+                f"Prompt desconocido: {nombre}. "
+                f"Opciones disponibles: {', '.join(nombres_disponibles)}"
+            )
+
     registro = {
         "fecha": datetime.now().astimezone().isoformat(timespec="seconds"),
         "modelo_solicitado": modelo,
