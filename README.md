@@ -129,6 +129,39 @@ un cargo: depende del nivel de servicio utilizado.
 Las funciones reutilizables se encuentran en `src/consumir_gemini.py`.
 La respuesta y su consumo pueden variar entre ejecuciones.
 
+### Cliente modular con reintentos
+
+Para ejecutar el cliente que clasifica errores y reintenta
+ante fallos considerados temporales:
+
+```powershell
+python -m src.cliente
+```
+
+Realiza una consulta real a Gemini y muestra el texto generado.
+Permite hasta tres intentos, con una espera fija de dos segundos
+entre intentos fallidos. Los errores de entrada y los estados
+HTTP 401 y 403 se comunican sin reintentar.
+
+Para utilizarlo desde otro módulo:
+
+```python
+from src.cliente import consultar_modelo
+
+respuesta = consultar_modelo("¿Cuál es la capital de Chile?")
+```
+Para comprobar el cliente con respuestas simuladas, desde
+la raíz del repositorio y con el entorno virtual activo:
+
+```powershell
+python -m tests.comprobar_cliente
+```
+
+Esta comprobación verifica éxito inmediato, recuperación,
+agotamiento de intentos, estados HTTP 401 y 403 y rechazo
+de preguntas inválidas. Muestra el resultado de cada escenario
+y la cantidad de peticiones realizadas, sin conectarse a Gemini.
+
 ## Pruebas locales del módulo
 
 Desde la raíz del repositorio y con el entorno virtual activo:
