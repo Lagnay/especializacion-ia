@@ -1,9 +1,23 @@
 import time
+import random
 from typing import Any, Callable
 
 import requests
 
-from src.consumir_gemini import armar_peticion, extraer_texto
+from src.consumir_gemini import (
+    armar_peticion,
+    extraer_texto,
+    calcular_costo,
+)
+
+
+# Referencias del laboratorio fechadas el 16-10-2026.
+# Importes en USD por token; no representan un cargo real.
+PRECIO_ENTRADA = 0.30 / 1_000_000
+PRECIO_SALIDA = 2.50 / 1_000_000
+PRECIO_CACHE = 0.03 / 1_000_000
+
+costo_total_sesion = 0.0
 
 
 def clasificar_estado(codigo):
@@ -66,7 +80,8 @@ def enviar_peticion_clasificada(url, headers, body):
 def con_reintento(
     funcion: Callable[[], Any],
     intentos: int = 3,
-    espera_segundos: int = 2,
+    espera_base: float = 2,
+    espera_maxima: float = 30,
 ) -> Any:
     if intentos < 1:
         raise ValueError("Debe permitirse al menos un intento.")
@@ -79,11 +94,47 @@ def con_reintento(
             if intento == intentos:
                 raise
 
+            espera_calculada = min(
+                espera_base * (2 ** (intento - 1)),
+                espera_maxima,
+            )
+
+            jitter = random.uniform(0, espera_calculada * 0.1)
+
+            espera = min(
+                espera_calculada + jitter,
+                espera_maxima,
+            )
+
             print(
                 f"Intento {intento} de {intentos} fallido. "
-                f"Esperando {espera_segundos} segundos..."
+                f"Esperando {espera:.2f} segundos..."
             )
-            time.sleep(espera_segundos)
+            time.sleep(espera)
+
+
+def registrar_costo(respuesta: dict) -> float:
+    global costo_total_sesion
+
+    costo_estimado = calcular_costo(
+        respuesta,
+        PRECIO_ENTRADA,
+        PRECIO_SALIDA,
+        PRECIO_CACHE,
+    )
+
+    costo_total_sesion += costo_estimado
+
+    print(
+        f"Costo de referencia de la operación: "
+        f"{costo_estimado:.9f} USD"
+    )
+    print(
+        f"Acumulado de la sesión: "
+        f"{costo_total_sesion:.9f} USD"
+    )
+
+    return costo_estimado
 
 
 def consultar_modelo(pregunta, system_instruction=None):
@@ -107,7 +158,10 @@ def consultar_modelo(pregunta, system_instruction=None):
             "tras varios intentos. Intenta más tarde."
         ) from error
 
+    registrar_costo(datos)
+
     return extraer_texto(datos)
+
 
 if __name__ == "__main__":
     try:

@@ -139,9 +139,17 @@ python -m src.cliente
 ```
 
 Realiza una consulta real a Gemini y muestra el texto generado.
-Permite hasta tres intentos, con una espera fija de dos segundos
-entre intentos fallidos. Los errores de entrada y los estados
+Permite hasta tres intentos, con esperas exponenciales y una
+pequeña variación aleatoria (jitter), limitadas a 30 segundos
+por pausa. Los errores de entrada y los estados
 HTTP 401 y 403 se comunican sin reintentar.
+
+Cada respuesta recibida con datos de consumo permite calcular
+y mostrar un costo de referencia, acumulado durante el proceso
+actual. El acumulado se reinicia al ejecutar nuevamente el
+programa. Se utilizan tarifas de referencia del laboratorio
+fechadas el 16-10-2026; el importe no representa necesariamente
+un cargo real.
 
 Para utilizarlo desde otro módulo:
 

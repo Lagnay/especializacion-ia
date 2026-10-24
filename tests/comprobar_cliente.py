@@ -15,7 +15,12 @@ def crear_respuesta_simulada(codigo):
                     ]
                 }
             }
-        ]
+        ],
+        "usageMetadata": {
+            "promptTokenCount": 11,
+            "candidatesTokenCount": 3,
+            "totalTokenCount": 14,
+        },
     }
 
     return respuesta
