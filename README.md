@@ -182,6 +182,23 @@ python -m tests.comprobar_timeout
 
 Estas pruebas comprueban extracción y manejo de fallos preparados o simulados; no envían peticiones a Gemini. La ejecución indicada en «Uso» comprueba la conexión real.
 
+## Pruebas unitarias del cliente
+
+Desde la raíz del repositorio, con el entorno virtual activo
+y las dependencias instaladas:
+
+```powershell
+python -m pytest tests/test_cliente.py -v
+```
+
+La suite comprueba clasificación de estados HTTP, reintentos,
+cálculo y acumulación de costos y coordinación del cliente.
+Utiliza respuestas simuladas y sustituye las esperas, sin
+consultar Gemini ni requerir una credencial válida.
+
+Cada caso debe aparecer como `PASSED`. La fixture del archivo
+aísla el acumulado de costos entre pruebas.
+
 ## Comprobación
 
 Con el entorno activo:
@@ -247,7 +264,7 @@ en sus registros.
 | --- | --- |
 | `src/` | Módulos de la aplicación y programa principal |
 | `src/practicas/` | Ejercicios y versiones utilizadas durante el aprendizaje |
-| `tests/` | Scripts de comprobación local del módulo |
+| `tests/` | Pruebas unitarias y scripts de comprobación local |
 | `prompts/` | Banco de prompts, validación y registros de resultados |
 | `docs/` | Documentación, diagramas y evidencias |
 | `requirements.txt` | Paquetes y versiones del entorno |
