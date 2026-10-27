@@ -1,6 +1,10 @@
 # Laboratorio de integración con IA
 
-Repositorio de práctica de la Especialización en Desarrollo con IA Generativa. Incluye un módulo Python que consulta la API de Gemini, extrae el texto generado, valida la entrada y maneja errores previsibles, además de ejercicios de aprendizaje.
+Repositorio de práctica de la Especialización en Desarrollo con
+IA Generativa. Incluye un cliente Python para Gemini con validación,
+manejo de errores, reintentos y estimación de costos; un pipeline
+de procesamiento y comparación léxica de texto; pruebas unitarias
+y ejercicios de aprendizaje.
 
 ## Requisitos
 
@@ -170,6 +174,61 @@ agotamiento de intentos, estados HTTP 401 y 403 y rechazo
 de preguntas inválidas. Muestra el resultado de cada escenario
 y la cantidad de peticiones realizadas, sin conectarse a Gemini.
 
+### Procesamiento y evaluación de texto
+
+`src/pipeline_texto.py` contiene las funciones de limpieza,
+tokenización, conteo de palabras y coincidencia léxica.
+
+Para evaluar tres respuestas reales de Gemini, desde la raíz
+del repositorio, con el entorno activo y la credencial configurada:
+
+```powershell
+python -m src.evaluar_texto
+```
+
+Las consultas y referencias se definen en `CASOS`, dentro de
+`src/evaluar_texto.py`. El programa conserva la respuesta original
+y compara la coincidencia antes y después de procesar ambos textos.
+
+Esta ejecución realiza tres consultas reales y consume cuota.
+Los reintentos pueden añadir peticiones. Las respuestas y los
+porcentajes pueden variar entre ejecuciones.
+
+La coincidencia se calcula como:
+
+palabras únicas compartidas / palabras únicas de la referencia
+
+Si la referencia queda vacía, devuelve 0.0. La métrica no evalúa
+significado, orden ni veracidad, y no penaliza palabras adicionales.
+Un 100 % no garantiza que la respuesta sea correcta.
+
+La limpieza convierte a minúsculas, elimina caracteres distintos
+de los alfanuméricos, guion bajo y espacios en blanco, y normaliza
+los espacios. Puede unir fragmentos separados por puntuación.
+
+Los tokens de este pipeline son unidades separadas por espacios
+en blanco; no equivalen necesariamente a los tokens contabilizados
+por la API.
+
+Para probar el procesamiento local desde la terminal, en la raíz
+del repositorio y con el entorno virtual activo:
+
+```powershell
+python -c "from src.pipeline_texto import procesar_texto; print(procesar_texto('El Cielo, es AZUL!'))"
+```
+
+Salida esperada:
+
+```text
+['el', 'cielo', 'es', 'azul']
+```
+
+Este comando no consulta Gemini ni requiere credenciales.
+
+La estructura adapta los ejemplos del curso: los módulos están
+en `src`, las pruebas en `tests` y los comandos se ejecutan desde
+la raíz del repositorio.
+
 ## Pruebas locales del módulo
 
 Desde la raíz del repositorio y con el entorno virtual activo:
@@ -180,24 +239,46 @@ python -m tests.comprobar_json_invalido
 python -m tests.comprobar_timeout
 ```
 
-Estas pruebas comprueban extracción y manejo de fallos preparados o simulados; no envían peticiones a Gemini. La ejecución indicada en «Uso» comprueba la conexión real.
+Estas pruebas comprueban extracción y manejo de fallos preparados
+o simulados; no envían peticiones a Gemini. La ejecución indicada
+en «Uso» comprueba la conexión real.
 
-## Pruebas unitarias del cliente
+## Pruebas unitarias
 
 Desde la raíz del repositorio, con el entorno virtual activo
-y las dependencias instaladas:
+y las dependencias instaladas, para ejecutar todas las pruebas:
+
+```powershell
+python -m pytest tests -v
+```
+
+Para ejecutar únicamente las pruebas del cliente:
 
 ```powershell
 python -m pytest tests/test_cliente.py -v
 ```
 
-La suite comprueba clasificación de estados HTTP, reintentos,
-cálculo y acumulación de costos y coordinación del cliente.
-Utiliza respuestas simuladas y sustituye las esperas, sin
-consultar Gemini ni requerir una credencial válida.
+Para ejecutar únicamente las pruebas del pipeline:
 
-Cada caso debe aparecer como `PASSED`. La fixture del archivo
-aísla el acumulado de costos entre pruebas.
+```powershell
+python -m pytest tests/test_pipeline_texto.py -v
+```
+
+Las pruebas del cliente comprueban estados HTTP, reintentos,
+costos y coordinación mediante respuestas simuladas.
+
+El jitter hace variables las esperas reales del cliente.
+Las pruebas de reintento verifican la cantidad de intentos
+y pausas solicitadas, sin exigir un valor aleatorio exacto.
+Sustituyen `time.sleep`, por lo que no esperan realmente.
+
+La fixture aísla el acumulado de costos entre casos.
+
+Las pruebas del pipeline comprueban normalización, entradas
+inválidas, texto vacío, conteos y coincidencia léxica.
+
+Estas pruebas no consultan Gemini ni requieren una credencial
+válida. Cada caso debe aparecer como `PASSED`.
 
 ## Comprobación
 
