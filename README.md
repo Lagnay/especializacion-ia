@@ -179,6 +179,13 @@ y la cantidad de peticiones realizadas, sin conectarse a Gemini.
 `src/pipeline_texto.py` contiene las funciones de limpieza,
 tokenización, conteo de palabras y coincidencia léxica.
 
+`src/metricas_texto.py` calcula coincidencias conservando las
+repeticiones, precisión, cobertura, F1 y promedios por caso.
+Precisión divide las coincidencias entre los tokens de respuesta;
+cobertura, entre los de referencia. F1 combina ambas mediante su
+media armónica. Si cualquiera de los textos procesados queda vacío,
+las tres métricas devuelven 0.0.
+
 Para evaluar tres respuestas reales de Gemini, desde la raíz
 del repositorio, con el entorno activo y la credencial configurada:
 
@@ -194,12 +201,32 @@ Esta ejecución realiza tres consultas reales y consume cuota.
 Los reintentos pueden añadir peticiones. Las respuestas y los
 porcentajes pueden variar entre ejecuciones.
 
-La coincidencia se calcula como:
+La evaluación también calcula precisión, cobertura y F1, y guarda
+un registro JSON nuevo en `docs/Bloque 16`, con fecha y hora en el
+nombre. Crea la carpeta si no existe y conserva registros anteriores.
+El archivo incluye consultas, referencias, respuestas completas,
+métricas, configuración y errores registrados.
+
+Para resumir un registro guardado, sin consultar la API ni modificarlo:
+
+```powershell
+python -m src.resumir_evaluacion "docs/Bloque 16/resultados_metricas_20261027_202048_949209.json"
+```
+
+El comando muestra los promedios y ordena los casos por F1 ascendente.
+Para analizar otra ejecución, sustituye la ruta por la de su registro.
+El resumen local no requiere una credencial de Gemini.
+
+Estas métricas miden coincidencia léxica, no calidad semántica ni
+veracidad. Un F1 alto no garantiza una respuesta correcta.
+
+Los porcentajes de coincidencia cruda y procesada utilizan:
 
 palabras únicas compartidas / palabras únicas de la referencia
 
-Si la referencia queda vacía, devuelve 0.0. La métrica no evalúa
-significado, orden ni veracidad, y no penaliza palabras adicionales.
+Si la referencia queda vacía, esta coincidencia devuelve 0.0.
+Esta medida de palabras únicas no evalúa significado, orden ni
+veracidad, y no penaliza palabras adicionales.
 Un 100 % no garantiza que la respuesta sea correcta.
 
 La limpieza convierte a minúsculas, elimina caracteres distintos
@@ -263,6 +290,15 @@ Para ejecutar únicamente las pruebas del pipeline:
 ```powershell
 python -m pytest tests/test_pipeline_texto.py -v
 ```
+
+Para ejecutar únicamente las pruebas de las métricas:
+
+```powershell
+python -m pytest tests/test_metricas_texto.py -v
+```
+
+Comprueban coincidencias con repeticiones, cálculo de métricas,
+entradas vacías, ausencia de coincidencias y promedios por caso.
 
 Las pruebas del cliente comprueban estados HTTP, reintentos,
 costos y coordinación mediante respuestas simuladas.
@@ -334,10 +370,16 @@ versionados, pero no `.env`. Las reglas de exclusión deben
 cubrir `.env` y `venv`. La consulta del historial de `.env`
 no debe devolver commits.
 
-Una instalación y ejecución principal sin modificar archivos
-versionados debe dejar limpio el estado de Git. Reejecutar
-el banco de prompts puede mostrar cambios esperados
-en sus registros.
+Si se parte de una copia limpia, la instalación y la ejecución
+de `python -m src.main` deben mantener limpio el estado de Git.
+
+Reejecutar el banco de prompts puede modificar sus registros.
+Ejecutar `python -m src.evaluar_texto` crea un registro nuevo
+en `docs/Bloque 16`, que aparecerá como archivo sin seguimiento
+hasta incorporarlo a Git.
+
+Ejecutar `python -m src.resumir_evaluacion` solamente lee
+el registro seleccionado y muestra su análisis.
 
 ## Estructura
 

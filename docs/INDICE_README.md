@@ -20,3 +20,5 @@
 - [Bloque 13 — Ensayo de consultas y límites de uso](Bloque%2013/ENSAYO_RATE_LIMIT.md).
 
 - [Bloque 15 — Pipeline y evaluación de texto](Bloque%2015/EVALUACION_TEXTO.md).
+
+- [Bloque 16 — Precisión, cobertura y F1](Bloque%2016/EVALUACION_METRICAS.md).

@@ -1,0 +1,32 @@
+{
+  "fecha": "2026-10-27T20:20:48-03:00",
+  "modelo_configurado": "gemini-3.5-flash-lite",
+  "instruccion_sistema": "Responde en español, con una sola oración breve y sin formato Markdown.",
+  "resultados": [
+    {
+      "consulta": "Escribe exactamente «El cielo es azul.» en minúsculas y sin signos de puntuación ni comillas.",
+      "referencia": "El cielo es azul.",
+      "respuesta": "el cielo es azul",
+      "precision": 1.0,
+      "cobertura": 1.0,
+      "f1": 1.0
+    },
+    {
+      "consulta": "¿Qué es Python?",
+      "referencia": "Python es un lenguaje de programación interpretado.",
+      "respuesta": "Python es un lenguaje de programación de alto nivel, versátil y fácil de aprender que se utiliza para el desarrollo de software, inteligencia artificial y análisis de datos.",
+      "precision": 0.21428571428571427,
+      "cobertura": 0.8571428571428571,
+      "f1": 0.34285714285714286
+    },
+    {
+      "consulta": "¿Para qué sirve la fotosíntesis en las plantas?",
+      "referencia": "La fotosíntesis permite a las plantas producir alimento utilizando la luz.",
+      "respuesta": "La fotosíntesis sirve para que las plantas transformen la luz solar, el agua y el dióxido de carbono en su propio alimento y oxígeno para el planeta.",
+      "precision": 0.25925925925925924,
+      "cobertura": 0.6363636363636364,
+      "f1": 0.368421052631579
+    }
+  ],
+  "errores": []
+}
