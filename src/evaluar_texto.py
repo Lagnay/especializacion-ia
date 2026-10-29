@@ -7,6 +7,7 @@ from src.pipeline_texto import (
     calcular_coincidencia,
 )
 from src.metricas_texto import calcular_metricas
+from src.casos_evaluacion import CASOS_ORIGINALES
 
 
 INSTRUCCION = (
@@ -15,30 +16,7 @@ INSTRUCCION = (
 )
 
 
-CASOS = [
-    {
-        "consulta": (
-            "Escribe exactamente «El cielo es azul.» en minúsculas "
-            "y sin signos de puntuación ni comillas."
-        ),
-        "referencia": "El cielo es azul.",
-    },
-    {
-        "consulta": "¿Qué es Python?",
-        "referencia": (
-            "Python es un lenguaje de programación interpretado."
-        ),
-    },
-    {
-        "consulta": (
-            "¿Para qué sirve la fotosíntesis en las plantas?"
-        ),
-        "referencia": (
-            "La fotosíntesis permite a las plantas producir "
-            "alimento utilizando la luz."
-        ),
-    },
-]
+CASOS = CASOS_ORIGINALES
 
 
 if __name__ == "__main__":

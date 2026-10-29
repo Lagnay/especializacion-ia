@@ -1,0 +1,545 @@
+{
+  "fecha": "2026-10-28T22:49:14-03:00",
+  "modelo_configurado": "gemini-3.5-flash-lite",
+  "instruccion_sistema": "Responde en español, con una sola oración breve y sin formato Markdown.",
+  "casos": [
+    {
+      "id": "C01",
+      "tipo": "formato_controlado",
+      "consulta": "Escribe exactamente «El cielo es azul.» en minúsculas y sin signos de puntuación ni comillas.",
+      "referencia": "el cielo es azul",
+      "aspectos_esperados": [
+        "Reproducir el contenido solicitado.",
+        "Utilizar minúsculas.",
+        "No añadir puntuación, comillas ni explicaciones."
+      ]
+    },
+    {
+      "id": "C02",
+      "tipo": "conocimiento_general",
+      "consulta": "¿Qué es Python?",
+      "referencia": "Python es un lenguaje de programación interpretado.",
+      "aspectos_esperados": [
+        "Identificar Python como un lenguaje de programación.",
+        "Ofrecer una descripción pertinente a la pregunta."
+      ]
+    },
+    {
+      "id": "C03",
+      "tipo": "conocimiento_general",
+      "consulta": "¿Para qué sirve la fotosíntesis en las plantas?",
+      "referencia": "La fotosíntesis permite a las plantas producir alimento utilizando la luz.",
+      "aspectos_esperados": [
+        "Explicar que permite a las plantas producir alimento.",
+        "Relacionar el proceso con el aprovechamiento de la luz."
+      ]
+    },
+    {
+      "id": "C04",
+      "tipo": "extraccion",
+      "contexto": "El pedido incluye cuatro paquetes de arroz y se retira el viernes.",
+      "pregunta": "¿Cuántos paquetes incluye el pedido y qué día se retira?",
+      "referencia": "El pedido incluye cuatro paquetes de arroz y se retira el viernes.",
+      "aspectos_esperados": [
+        "Cantidad: cuatro paquetes.",
+        "Día de retiro: viernes."
+      ]
+    },
+    {
+      "id": "C05",
+      "tipo": "informacion_ausente",
+      "contexto": "El pedido incluye cuatro paquetes de arroz y se retira el viernes.",
+      "pregunta": "¿A qué hora se retira el pedido?",
+      "referencia": "La información proporcionada no indica una hora de retiro.",
+      "aspectos_esperados": [
+        "Reconocer que la hora no está indicada.",
+        "No inventar una hora de retiro."
+      ]
+    },
+    {
+      "id": "C06",
+      "tipo": "negacion",
+      "contexto": "Hay leche y arroz disponibles. No queda pan.",
+      "pregunta": "¿Hay pan disponible y qué otros productos se pueden comprar?",
+      "referencia": "No queda pan; hay leche y arroz disponibles.",
+      "aspectos_esperados": [
+        "Pan: no disponible.",
+        "Leche: disponible.",
+        "Arroz: disponible."
+      ]
+    },
+    {
+      "id": "C07",
+      "tipo": "fecha",
+      "contexto": "El pedido se recibió el 12 de mayo. Su retiro se acordó para el 15 de mayo.",
+      "pregunta": "¿En qué fecha se retira el pedido?",
+      "referencia": "El pedido se retira el 15 de mayo.",
+      "aspectos_esperados": [
+        "Fecha de retiro: 15 de mayo.",
+        "Distinguir la fecha de recepción de la de retiro."
+      ]
+    },
+    {
+      "id": "C08",
+      "tipo": "condicion",
+      "contexto": "El envío es gratuito para compras de al menos 30000 pesos. Esta compra suma 28000 pesos.",
+      "pregunta": "¿Esta compra cumple la condición para obtener envío gratuito? Explica por qué.",
+      "referencia": "No cumple: suma 28000 pesos y el mínimo para envío gratuito es 30000 pesos.",
+      "aspectos_esperados": [
+        "Indicar que no cumple la condición.",
+        "Explicar que 28000 es menor que 30000."
+      ]
+    },
+    {
+      "id": "C09",
+      "tipo": "calculo",
+      "contexto": "Se compran tres panes de 1200 pesos cada uno y se paga con 5000 pesos.",
+      "pregunta": "¿Cuál es el total y cuánto vuelto corresponde?",
+      "referencia": "El total es 3600 pesos y el vuelto es 1400 pesos.",
+      "aspectos_esperados": [
+        "Total: 3600 pesos.",
+        "Vuelto: 1400 pesos."
+      ]
+    },
+    {
+      "id": "C10",
+      "tipo": "parafrasis",
+      "contexto": "El automóvil se desplaza a gran velocidad.",
+      "pregunta": "Expresa la misma idea con otras palabras, sin añadir información.",
+      "referencia": "El auto es veloz.",
+      "aspectos_esperados": [
+        "Expresar que el automóvil es rápido.",
+        "Reformular conservando el sentido.",
+        "No añadir otras características del automóvil."
+      ]
+    },
+    {
+      "id": "C11",
+      "tipo": "participantes",
+      "contexto": "Laura entregó una caja a Marcos.",
+      "pregunta": "¿Quién entregó la caja y quién la recibió?",
+      "referencia": "Laura entregó la caja y Marcos la recibió.",
+      "aspectos_esperados": [
+        "Laura: persona que entrega.",
+        "Marcos: persona que recibe."
+      ]
+    },
+    {
+      "id": "C12",
+      "tipo": "excepcion",
+      "contexto": "La tienda acepta devoluciones dentro de 30 días, excepto de alimentos, que no se pueden devolver. El producto es arroz comprado hace 10 días.",
+      "pregunta": "Según esta política, ¿se puede devolver el arroz? Explica por qué.",
+      "referencia": "No se puede devolver porque es un alimento, aunque se compró hace 10 días.",
+      "aspectos_esperados": [
+        "Indicar que no se puede devolver.",
+        "Aplicar la excepción para alimentos."
+      ]
+    },
+    {
+      "id": "C13",
+      "tipo": "informacion_ausente",
+      "contexto": "La ficha indica que el local abre a las 9:00 y cierra a las 18:00.",
+      "pregunta": "¿Cuál es el teléfono del local?",
+      "referencia": "La ficha no proporciona el teléfono del local.",
+      "aspectos_esperados": [
+        "Reconocer que no se proporciona el teléfono.",
+        "No inventar un número de teléfono."
+      ]
+    },
+    {
+      "id": "C14",
+      "tipo": "resumen",
+      "contexto": "El pedido debía entregarse el lunes, pero llegó el miércoles, con dos días de retraso. La clienta tuvo que reorganizar su tarde para recibirlo y revisó cada artículo al abrir la caja. El embalaje tenía una esquina doblada, aunque el producto estaba intacto y funcionaba correctamente. Encontró el comprobante de despacho dentro de la caja, pero no la factura. Por eso solicitó que le enviaran la factura por correo electrónico. También comentó que el repartidor fue amable y que pudo guardar el producto sin dificultades.",
+      "pregunta": "Resume el caso en un máximo de 25 palabras; asegurate de incluir el estado del producto, el retraso y la solicitud de la clienta.",
+      "referencia": "El pedido llegó dos días tarde; el producto estaba intacto y la clienta pidió la factura por correo electrónico.",
+      "aspectos_esperados": [
+        "Conservar el retraso de dos días.",
+        "Conservar que el producto estaba intacto.",
+        "Conservar la solicitud de factura por correo.",
+        "Utilizar un máximo de 25 palabras.",
+        "Omitir detalles secundarios sin inventar información."
+      ]
+    },
+    {
+      "id": "C15",
+      "tipo": "actualizacion",
+      "contexto": "La lista inicial de compras contiene pan, leche y arroz. Después se cancela la leche.",
+      "pregunta": "¿Qué productos quedan en la lista?",
+      "referencia": "Quedan pan y arroz.",
+      "aspectos_esperados": [
+        "Incluir pan.",
+        "Incluir arroz.",
+        "Excluir la leche cancelada."
+      ]
+    },
+    {
+      "id": "C16",
+      "tipo": "unidades",
+      "contexto": "El pedido contiene dos cajas. Cada caja contiene seis botellas.",
+      "pregunta": "¿Cuántas botellas contiene el pedido en total?",
+      "referencia": "El pedido contiene doce botellas.",
+      "aspectos_esperados": [
+        "Total: doce botellas.",
+        "Distinguir botellas de cajas."
+      ]
+    },
+    {
+      "id": "C17",
+      "tipo": "comparacion",
+      "contexto": "El plan A incluye dos visitas al mes. El plan B incluye cuatro visitas al mes.",
+      "pregunta": "¿Qué plan incluye más visitas y cuántas más incluye respecto del otro?",
+      "referencia": "El plan B incluye dos visitas mensuales más que el plan A.",
+      "aspectos_esperados": [
+        "Identificar el plan B.",
+        "Diferencia: dos visitas al mes."
+      ]
+    },
+    {
+      "id": "C18",
+      "tipo": "secuencia",
+      "contexto": "El procedimiento indica revisar primero la conexión del cable y después reiniciar el equipo.",
+      "pregunta": "Según el procedimiento, ¿qué debe hacerse antes de reiniciar el equipo?",
+      "referencia": "Antes de reiniciar el equipo debe revisarse la conexión del cable.",
+      "aspectos_esperados": [
+        "Identificar la revisión de la conexión del cable.",
+        "Mantener el orden indicado."
+      ]
+    },
+    {
+      "id": "C19",
+      "tipo": "contexto_contradictorio",
+      "contexto": "La ficha A del pedido 42 indica que se retira el lunes. La ficha B del mismo pedido indica que se retira el martes.",
+      "pregunta": "¿Qué día debo retirar el pedido 42?",
+      "referencia": "Debe confirmarse el día de retiro: una ficha indica lunes y la otra martes.",
+      "aspectos_esperados": [
+        "Reconocer la discrepancia entre lunes y martes.",
+        "No presentar uno de los días como confirmado.",
+        "Indicar que hace falta aclarar cuál información es válida."
+      ]
+    },
+    {
+      "id": "C20",
+      "tipo": "significado_en_contexto",
+      "contexto": "En este catálogo ficticio, Luna es una marca de arroz y Sol es una marca de leche.",
+      "pregunta": "¿Qué representa Luna y a qué corresponde?",
+      "referencia": "Luna es una marca de arroz.",
+      "aspectos_esperados": [
+        "Identificar Luna como una marca.",
+        "Relacionarla con arroz.",
+        "Utilizar el significado establecido en el contexto."
+      ]
+    }
+  ],
+  "resultados": [
+    {
+      "id": "C01",
+      "tipo": "formato_controlado",
+      "fecha": "2026-10-28T22:49:16-03:00",
+      "consulta": "Escribe exactamente «El cielo es azul.» en minúsculas y sin signos de puntuación ni comillas.",
+      "referencia": "el cielo es azul",
+      "aspectos_esperados": [
+        "Reproducir el contenido solicitado.",
+        "Utilizar minúsculas.",
+        "No añadir puntuación, comillas ni explicaciones."
+      ],
+      "respuesta": "el cielo es azul",
+      "precision": 1.0,
+      "cobertura": 1.0,
+      "f1": 1.0
+    },
+    {
+      "id": "C02",
+      "tipo": "conocimiento_general",
+      "fecha": "2026-10-28T22:49:28-03:00",
+      "consulta": "¿Qué es Python?",
+      "referencia": "Python es un lenguaje de programación interpretado.",
+      "aspectos_esperados": [
+        "Identificar Python como un lenguaje de programación.",
+        "Ofrecer una descripción pertinente a la pregunta."
+      ],
+      "respuesta": "Python es un lenguaje de programación de alto nivel, versátil y fácil de aprender que se utiliza en diversas áreas como el desarrollo web y la inteligencia artificial.",
+      "precision": 0.21428571428571427,
+      "cobertura": 0.8571428571428571,
+      "f1": 0.34285714285714286
+    },
+    {
+      "id": "C03",
+      "tipo": "conocimiento_general",
+      "fecha": "2026-10-28T22:49:35-03:00",
+      "consulta": "¿Para qué sirve la fotosíntesis en las plantas?",
+      "referencia": "La fotosíntesis permite a las plantas producir alimento utilizando la luz.",
+      "aspectos_esperados": [
+        "Explicar que permite a las plantas producir alimento.",
+        "Relacionar el proceso con el aprovechamiento de la luz."
+      ],
+      "respuesta": "La fotosíntesis sirve para que las plantas produzcan su propio alimento y liberen oxígeno vital para el planeta.",
+      "precision": 0.2777777777777778,
+      "cobertura": 0.45454545454545453,
+      "f1": 0.3448275862068966
+    },
+    {
+      "id": "C04",
+      "tipo": "extraccion",
+      "fecha": "2026-10-28T22:49:42-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl pedido incluye cuatro paquetes de arroz y se retira el viernes.\n\nPregunta:\n¿Cuántos paquetes incluye el pedido y qué día se retira?",
+      "referencia": "El pedido incluye cuatro paquetes de arroz y se retira el viernes.",
+      "aspectos_esperados": [
+        "Cantidad: cuatro paquetes.",
+        "Día de retiro: viernes."
+      ],
+      "respuesta": "El pedido incluye cuatro paquetes de arroz y se retira el viernes.",
+      "precision": 1.0,
+      "cobertura": 1.0,
+      "f1": 1.0
+    },
+    {
+      "id": "C05",
+      "tipo": "informacion_ausente",
+      "fecha": "2026-10-28T22:49:49-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl pedido incluye cuatro paquetes de arroz y se retira el viernes.\n\nPregunta:\n¿A qué hora se retira el pedido?",
+      "referencia": "La información proporcionada no indica una hora de retiro.",
+      "aspectos_esperados": [
+        "Reconocer que la hora no está indicada.",
+        "No inventar una hora de retiro."
+      ],
+      "respuesta": "El contexto no indica a qué hora se retira el pedido.",
+      "precision": 0.2727272727272727,
+      "cobertura": 0.3333333333333333,
+      "f1": 0.3
+    },
+    {
+      "id": "C06",
+      "tipo": "negacion",
+      "fecha": "2026-10-28T22:49:56-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nHay leche y arroz disponibles. No queda pan.\n\nPregunta:\n¿Hay pan disponible y qué otros productos se pueden comprar?",
+      "referencia": "No queda pan; hay leche y arroz disponibles.",
+      "aspectos_esperados": [
+        "Pan: no disponible.",
+        "Leche: disponible.",
+        "Arroz: disponible."
+      ],
+      "respuesta": "No hay pan disponible y se puede comprar leche y arroz.",
+      "precision": 0.5454545454545454,
+      "cobertura": 0.75,
+      "f1": 0.631578947368421
+    },
+    {
+      "id": "C07",
+      "tipo": "fecha",
+      "fecha": "2026-10-28T22:50:02-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl pedido se recibió el 12 de mayo. Su retiro se acordó para el 15 de mayo.\n\nPregunta:\n¿En qué fecha se retira el pedido?",
+      "referencia": "El pedido se retira el 15 de mayo.",
+      "aspectos_esperados": [
+        "Fecha de retiro: 15 de mayo.",
+        "Distinguir la fecha de recepción de la de retiro."
+      ],
+      "respuesta": "El pedido se retira el 15 de mayo.",
+      "precision": 1.0,
+      "cobertura": 1.0,
+      "f1": 1.0
+    },
+    {
+      "id": "C08",
+      "tipo": "condicion",
+      "fecha": "2026-10-28T22:50:09-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl envío es gratuito para compras de al menos 30000 pesos. Esta compra suma 28000 pesos.\n\nPregunta:\n¿Esta compra cumple la condición para obtener envío gratuito? Explica por qué.",
+      "referencia": "No cumple: suma 28000 pesos y el mínimo para envío gratuito es 30000 pesos.",
+      "aspectos_esperados": [
+        "Indicar que no cumple la condición.",
+        "Explicar que 28000 es menor que 30000."
+      ],
+      "respuesta": "No cumple la condición porque el envío gratuito requiere al menos 30000 pesos y esta compra suma 28000 pesos.",
+      "precision": 0.5789473684210527,
+      "cobertura": 0.7857142857142857,
+      "f1": 0.6666666666666667
+    },
+    {
+      "id": "C09",
+      "tipo": "calculo",
+      "fecha": "2026-10-28T22:50:16-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nSe compran tres panes de 1200 pesos cada uno y se paga con 5000 pesos.\n\nPregunta:\n¿Cuál es el total y cuánto vuelto corresponde?",
+      "referencia": "El total es 3600 pesos y el vuelto es 1400 pesos.",
+      "aspectos_esperados": [
+        "Total: 3600 pesos.",
+        "Vuelto: 1400 pesos."
+      ],
+      "respuesta": "El total es de 3600 pesos y corresponde un vuelto de 1400 pesos.",
+      "precision": 0.6923076923076923,
+      "cobertura": 0.8181818181818182,
+      "f1": 0.7500000000000001
+    },
+    {
+      "id": "C10",
+      "tipo": "parafrasis",
+      "fecha": "2026-10-28T22:50:23-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl automóvil se desplaza a gran velocidad.\n\nPregunta:\nExpresa la misma idea con otras palabras, sin añadir información.",
+      "referencia": "El auto es veloz.",
+      "aspectos_esperados": [
+        "Expresar que el automóvil es rápido.",
+        "Reformular conservando el sentido.",
+        "No añadir otras características del automóvil."
+      ],
+      "respuesta": "El coche avanza muy rápido.",
+      "precision": 0.2,
+      "cobertura": 0.25,
+      "f1": 0.22222222222222224
+    },
+    {
+      "id": "C11",
+      "tipo": "participantes",
+      "fecha": "2026-10-28T22:50:29-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nLaura entregó una caja a Marcos.\n\nPregunta:\n¿Quién entregó la caja y quién la recibió?",
+      "referencia": "Laura entregó la caja y Marcos la recibió.",
+      "aspectos_esperados": [
+        "Laura: persona que entrega.",
+        "Marcos: persona que recibe."
+      ],
+      "respuesta": "Laura entregó la caja y Marcos la recibió.",
+      "precision": 1.0,
+      "cobertura": 1.0,
+      "f1": 1.0
+    },
+    {
+      "id": "C12",
+      "tipo": "excepcion",
+      "fecha": "2026-10-28T22:50:37-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nLa tienda acepta devoluciones dentro de 30 días, excepto de alimentos, que no se pueden devolver. El producto es arroz comprado hace 10 días.\n\nPregunta:\nSegún esta política, ¿se puede devolver el arroz? Explica por qué.",
+      "referencia": "No se puede devolver porque es un alimento, aunque se compró hace 10 días.",
+      "aspectos_esperados": [
+        "Indicar que no se puede devolver.",
+        "Aplicar la excepción para alimentos."
+      ],
+      "respuesta": "No se puede devolver el arroz porque es un alimento, a pesar de haber sido comprado hace 10 días.",
+      "precision": 0.5789473684210527,
+      "cobertura": 0.7857142857142857,
+      "f1": 0.6666666666666667
+    },
+    {
+      "id": "C13",
+      "tipo": "informacion_ausente",
+      "fecha": "2026-10-28T22:50:44-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nLa ficha indica que el local abre a las 9:00 y cierra a las 18:00.\n\nPregunta:\n¿Cuál es el teléfono del local?",
+      "referencia": "La ficha no proporciona el teléfono del local.",
+      "aspectos_esperados": [
+        "Reconocer que no se proporciona el teléfono.",
+        "No inventar un número de teléfono."
+      ],
+      "respuesta": "El contexto no proporciona el teléfono del local.",
+      "precision": 0.75,
+      "cobertura": 0.75,
+      "f1": 0.75
+    },
+    {
+      "id": "C14",
+      "tipo": "resumen",
+      "fecha": "2026-10-28T22:50:51-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl pedido debía entregarse el lunes, pero llegó el miércoles, con dos días de retraso. La clienta tuvo que reorganizar su tarde para recibirlo y revisó cada artículo al abrir la caja. El embalaje tenía una esquina doblada, aunque el producto estaba intacto y funcionaba correctamente. Encontró el comprobante de despacho dentro de la caja, pero no la factura. Por eso solicitó que le enviaran la factura por correo electrónico. También comentó que el repartidor fue amable y que pudo guardar el producto sin dificultades.\n\nPregunta:\nResume el caso en un máximo de 25 palabras; asegurate de incluir el estado del producto, el retraso y la solicitud de la clienta.",
+      "referencia": "El pedido llegó dos días tarde; el producto estaba intacto y la clienta pidió la factura por correo electrónico.",
+      "aspectos_esperados": [
+        "Conservar el retraso de dos días.",
+        "Conservar que el producto estaba intacto.",
+        "Conservar la solicitud de factura por correo.",
+        "Utilizar un máximo de 25 palabras.",
+        "Omitir detalles secundarios sin inventar información."
+      ],
+      "respuesta": "El pedido llegó con dos días de retraso pero el producto estaba intacto, y la clienta solicitó que le enviaran la factura por correo electrónico.",
+      "precision": 0.68,
+      "cobertura": 0.8947368421052632,
+      "f1": 0.7727272727272727
+    },
+    {
+      "id": "C15",
+      "tipo": "actualizacion",
+      "fecha": "2026-10-28T22:50:58-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nLa lista inicial de compras contiene pan, leche y arroz. Después se cancela la leche.\n\nPregunta:\n¿Qué productos quedan en la lista?",
+      "referencia": "Quedan pan y arroz.",
+      "aspectos_esperados": [
+        "Incluir pan.",
+        "Incluir arroz.",
+        "Excluir la leche cancelada."
+      ],
+      "respuesta": "En la lista quedan pan y arroz porque la leche fue cancelada.",
+      "precision": 0.3333333333333333,
+      "cobertura": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "C16",
+      "tipo": "unidades",
+      "fecha": "2026-10-28T22:51:05-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl pedido contiene dos cajas. Cada caja contiene seis botellas.\n\nPregunta:\n¿Cuántas botellas contiene el pedido en total?",
+      "referencia": "El pedido contiene doce botellas.",
+      "aspectos_esperados": [
+        "Total: doce botellas.",
+        "Distinguir botellas de cajas."
+      ],
+      "respuesta": "El pedido contiene doce botellas en total.",
+      "precision": 0.7142857142857143,
+      "cobertura": 1.0,
+      "f1": 0.8333333333333333
+    },
+    {
+      "id": "C17",
+      "tipo": "comparacion",
+      "fecha": "2026-10-28T22:51:13-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl plan A incluye dos visitas al mes. El plan B incluye cuatro visitas al mes.\n\nPregunta:\n¿Qué plan incluye más visitas y cuántas más incluye respecto del otro?",
+      "referencia": "El plan B incluye dos visitas mensuales más que el plan A.",
+      "aspectos_esperados": [
+        "Identificar el plan B.",
+        "Diferencia: dos visitas al mes."
+      ],
+      "respuesta": "El plan B incluye más visitas, concretamente dos más que el plan A.",
+      "precision": 0.8461538461538461,
+      "cobertura": 0.9166666666666666,
+      "f1": 0.8799999999999999
+    },
+    {
+      "id": "C18",
+      "tipo": "secuencia",
+      "fecha": "2026-10-28T22:51:19-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEl procedimiento indica revisar primero la conexión del cable y después reiniciar el equipo.\n\nPregunta:\nSegún el procedimiento, ¿qué debe hacerse antes de reiniciar el equipo?",
+      "referencia": "Antes de reiniciar el equipo debe revisarse la conexión del cable.",
+      "aspectos_esperados": [
+        "Identificar la revisión de la conexión del cable.",
+        "Mantener el orden indicado."
+      ],
+      "respuesta": "Según el procedimiento, antes de reiniciar el equipo debe revisarse la conexión del cable.",
+      "precision": 0.7857142857142857,
+      "cobertura": 1.0,
+      "f1": 0.88
+    },
+    {
+      "id": "C19",
+      "tipo": "contexto_contradictorio",
+      "fecha": "2026-10-28T22:51:29-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nLa ficha A del pedido 42 indica que se retira el lunes. La ficha B del mismo pedido indica que se retira el martes.\n\nPregunta:\n¿Qué día debo retirar el pedido 42?",
+      "referencia": "Debe confirmarse el día de retiro: una ficha indica lunes y la otra martes.",
+      "aspectos_esperados": [
+        "Reconocer la discrepancia entre lunes y martes.",
+        "No presentar uno de los días como confirmado.",
+        "Indicar que hace falta aclarar cuál información es válida."
+      ],
+      "respuesta": "Falta el dato necesario porque la ficha A indica que se retira el lunes y la ficha B indica que se retira el martes.",
+      "precision": 0.2916666666666667,
+      "cobertura": 0.5,
+      "f1": 0.3684210526315789
+    },
+    {
+      "id": "C20",
+      "tipo": "significado_en_contexto",
+      "fecha": "2026-10-28T22:51:41-03:00",
+      "consulta": "Responde usando únicamente la información del contexto. Si falta un dato necesario, indícalo sin inventarlo.\n\nContexto ficticio:\nEn este catálogo ficticio, Luna es una marca de arroz y Sol es una marca de leche.\n\nPregunta:\n¿Qué representa Luna y a qué corresponde?",
+      "referencia": "Luna es una marca de arroz.",
+      "aspectos_esperados": [
+        "Identificar Luna como una marca.",
+        "Relacionarla con arroz.",
+        "Utilizar el significado establecido en el contexto."
+      ],
+      "respuesta": "Luna es una marca de arroz según el catálogo ficticio.",
+      "precision": 0.6,
+      "cobertura": 1.0,
+      "f1": 0.7499999999999999
+    }
+  ],
+  "errores": []
+}

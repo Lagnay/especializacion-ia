@@ -193,13 +193,27 @@ del repositorio, con el entorno activo y la credencial configurada:
 python -m src.evaluar_texto
 ```
 
-Las consultas y referencias se definen en `CASOS`, dentro de
-`src/evaluar_texto.py`. El programa conserva la respuesta original
-y compara la coincidencia antes y después de procesar ambos textos.
+Las consultas y referencias del grupo original se definen en
+`CASOS_ORIGINALES`, dentro de `src/casos_evaluacion.py`.
+`src/evaluar_texto.py` utiliza esos tres casos, conserva la respuesta
+original y compara la coincidencia antes y después de procesar
+ambos textos.
 
 Esta ejecución realiza tres consultas reales y consume cuota.
 Los reintentos pueden añadir peticiones. Las respuestas y los
 porcentajes pueden variar entre ejecuciones.
+
+La referencia actual de C01 es `el cielo es azul`, coherente con
+la instrucción de responder en minúsculas y sin puntuación.
+
+Las evidencias de los Bloques 15 y 16 conservan la referencia
+utilizada entonces: `El cielo es azul.`. Para la respuesta
+`el cielo es azul`, aquella referencia produce una coincidencia
+cruda de 50 %, mientras que la actual produce 100 %.
+La coincidencia procesada y el F1 son 100 % en ambos casos.
+
+Los registros históricos conservan sus datos originales;
+no se actualizan al modificar el catálogo.
 
 La evaluación también calcula precisión, cobertura y F1, y guarda
 un registro JSON nuevo en `docs/Bloque 16`, con fecha y hora en el
@@ -256,6 +270,67 @@ La estructura adapta los ejemplos del curso: los módulos están
 en `src`, las pruebas en `tests` y los comandos se ejecutan desde
 la raíz del repositorio.
 
+### Evaluación de un lote de veinte casos
+
+El catálogo completo se define en `src/casos_evaluacion.py`.
+Incluye preguntas, referencias y aspectos esperados para orientar
+la revisión humana.
+
+Desde la raíz del repositorio, con el entorno virtual activo,
+para comprobar el modo de preparación:
+
+```powershell
+python -m src.evaluar_lote
+```
+
+Este comando muestra los casos preparados y la ruta del registro,
+sin consultar Gemini ni crear archivos.
+
+Para ejecutar el lote, con la credencial configurada:
+
+```powershell
+python -m src.evaluar_lote --ejecutar
+```
+
+Una evaluación nueva realiza veinte consultas previstas.
+Los reintentos del cliente pueden añadir peticiones.
+Se introducen cinco segundos entre casos y se guarda el progreso
+en `docs/Bloque 17/resultados_metricas.json`.
+
+Si falla un caso, el lote guarda el avance y se detiene.
+Después de resolver la causa, el mismo comando continúa únicamente
+con los casos pendientes. Si ya hay veinte resultados completados,
+no repite las consultas.
+
+El archivo conserva el catálogo, las instrucciones, las respuestas,
+las referencias, los criterios, las fechas y las métricas.
+Los errores registrados corresponden a los casos actualmente fallidos.
+
+Para iniciar otra evaluación independiente, utiliza `--registro`
+seguido de la ruta de un archivo nuevo.
+
+Ejemplo opcional, que realiza nuevas consultas y consume cuota:
+
+```powershell
+python -m src.evaluar_lote --ejecutar --registro "docs/Bloque 17/resultados_metricas_otra_ejecucion.json"
+```
+
+Para reanudar esa evaluación, repite el comando con la misma ruta.
+Si cambian el catálogo o la instrucción, el programa rechaza
+continuar el registro existente.
+
+El repositorio incluye un lote ya completado. Ejecutar el comando
+sobre ese registro no genera respuestas nuevas.
+
+Para resumir el lote guardado sin consultar la API:
+
+```powershell
+python -m src.resumir_evaluacion "docs/Bloque 17/resultados_metricas.json"
+```
+
+La revisión humana y los límites observados están disponibles
+en el índice de documentación y evidencias.
+
 ## Pruebas locales del módulo
 
 Desde la raíz del repositorio y con el entorno virtual activo:
@@ -299,6 +374,16 @@ python -m pytest tests/test_metricas_texto.py -v
 
 Comprueban coincidencias con repeticiones, cálculo de métricas,
 entradas vacías, ausencia de coincidencias y promedios por caso.
+
+Para ejecutar únicamente las pruebas del lote:
+
+```powershell
+python -m pytest tests/test_evaluar_lote.py -v
+```
+
+Comprueban el guardado, la conservación del avance, la reanudación
+sin repetir resultados y el rechazo de cambios de catálogo o
+instrucción. Simulan las respuestas del modelo y las esperas.
 
 Las pruebas del cliente comprueban estados HTTP, reintentos,
 costos y coordinación mediante respuestas simuladas.
@@ -377,6 +462,10 @@ Reejecutar el banco de prompts puede modificar sus registros.
 Ejecutar `python -m src.evaluar_texto` crea un registro nuevo
 en `docs/Bloque 16`, que aparecerá como archivo sin seguimiento
 hasta incorporarlo a Git.
+
+Ejecutar `python -m src.evaluar_lote --ejecutar` puede crear o
+actualizar el registro del lote en `docs/Bloque 17`, por lo que
+pueden aparecer cambios esperados en Git.
 
 Ejecutar `python -m src.resumir_evaluacion` solamente lee
 el registro seleccionado y muestra su análisis.
