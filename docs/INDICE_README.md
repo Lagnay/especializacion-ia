@@ -26,3 +26,5 @@
 - [Bloque 17 — Revisión cualitativa de veinte respuestas](Bloque%2017/REVISION_MANUAL.md).
 
 - [Límites de la métrica de evaluación](limites_metrica.md).
+
+- [Bloque 18 — Cadena de reclamos con LangChain](Bloque%2018/CADENA_RECLAMOS.md).

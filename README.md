@@ -6,6 +6,10 @@ manejo de errores, reintentos y estimación de costos; un pipeline
 de procesamiento y comparación léxica de texto; pruebas unitarias
 y ejercicios de aprendizaje.
 
+También incluye una cadena de tres etapas con LangChain para
+analizar reclamos, preparar un plan interno y generar un borrador
+de respuesta sujeto a revisión.
+
 ## Requisitos
 
 - Git y acceso a Internet para obtener el repositorio y sus dependencias.
@@ -173,6 +177,36 @@ Esta comprobación verifica éxito inmediato, recuperación,
 agotamiento de intentos, estados HTTP 401 y 403 y rechazo
 de preguntas inválidas. Muestra el resultado de cada escenario
 y la cantidad de peticiones realizadas, sin conectarse a Gemini.
+
+### Cadena de reclamos con LangChain
+
+Desde la raíz del repositorio, con el entorno virtual activo,
+las dependencias instaladas y la credencial configurada:
+
+```powershell
+python -m src.cadena_reclamos
+```
+
+Utiliza el mensaje ficticio definido en el módulo y realiza tres
+consultas a `gemini-3.5-flash-lite`: análisis, planificación y redacción.
+Muestra únicamente el borrador final en la terminal.
+
+`construir_cadena(modelo)` devuelve la cadena sin ejecutarla.
+La entrada es un diccionario con la clave `mensaje`; la salida
+es texto. El mensaje original se conserva mediante
+`RunnablePassthrough.assign` para utilizarlo también en la redacción.
+
+El ejemplo configura un timeout de 30 segundos por solicitud
+y desactiva los reintentos automáticos. Esta cadena no utiliza
+los reintentos ni el registro de costos de `src/cliente.py`.
+
+No envía mensajes ni registra reclamos en un sistema de atención.
+El resultado requiere revisión humana: puede omitir detalles
+o introducir afirmaciones y compromisos sin respaldo.
+Las respuestas pueden variar.
+
+La ejecución y su revisión están documentadas en el índice
+de documentación y evidencias.
 
 ### Procesamiento y evaluación de texto
 
@@ -384,6 +418,20 @@ python -m pytest tests/test_evaluar_lote.py -v
 Comprueban el guardado, la conservación del avance, la reanudación
 sin repetir resultados y el rechazo de cambios de catálogo o
 instrucción. Simulan las respuestas del modelo y las esperas.
+
+Para ejecutar únicamente la prueba de la cadena de reclamos:
+
+```powershell
+python -m pytest tests/test_cadena_reclamos.py -v
+```
+
+Comprueba tres llamadas simuladas, el paso del análisis y del plan,
+la conservación del mensaje original y la salida final.
+No consulta Gemini ni evalúa la calidad de sus respuestas.
+
+En el entorno probado puede aparecer un `DeprecationWarning`
+de `google-genai`, relacionado con `_UnionGenericAlias`.
+La ejecución verificada terminó con todas las pruebas pasadas.
 
 Las pruebas del cliente comprueban estados HTTP, reintentos,
 costos y coordinación mediante respuestas simuladas.
