@@ -1,3 +1,4 @@
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -11,6 +12,43 @@ from langchain_core.runnables import (
 )
 
 from src.cadena_reclamos import construir_cadena
+
+
+logger = logging.getLogger(__name__)
+
+RESPUESTA_RESPALDO_QUEJA = (
+    "No pude completar el análisis de tu reclamo en este momento. "
+    "Puedes intentarlo de nuevo más tarde."
+)
+
+RESPUESTA_ERROR_GENERAL = (
+    "No pude procesar tu mensaje en este momento. "
+    "Intenta de nuevo más tarde."
+)
+
+
+def responder_queja_respaldo(datos):
+    logger.warning(
+        "No se pudo completar la ruta de queja: %s",
+        datos["_error_queja"],
+    )
+
+    return RESPUESTA_RESPALDO_QUEJA
+
+
+def construir_cadena_queja_segura(cadena_queja):
+    respaldo = RunnableLambda(responder_queja_respaldo)
+
+    protegida = cadena_queja.with_fallbacks(
+        [respaldo],
+        exceptions_to_handle=(Exception,),
+        exception_key="_error_queja",
+    )
+
+    return (
+        RunnableLambda(lambda datos: dict(datos))
+        | protegida
+    )
 
 
 def normalizar_categoria(texto):
@@ -70,7 +108,9 @@ def construir_rutas(modelo):
         "pregunta": (
             plantilla_pregunta | modelo | StrOutputParser()
         ),
-        "queja": construir_cadena(modelo),
+        "queja": construir_cadena_queja_segura(
+            construir_cadena(modelo)
+        ),
         "sugerencia": (
             plantilla_sugerencia | modelo | StrOutputParser()
         ),
@@ -123,7 +163,32 @@ def construir_flujo_atencion(modelo):
     )
 
 
+def procesar_mensaje_seguro(flujo, mensaje):
+    """Ejecuta el flujo y controla las excepciones que lleguen fuera."""
+    try:
+        return flujo.invoke({
+            "mensaje": mensaje,
+        })
+
+    except Exception:
+        logger.exception(
+            "No se pudo completar el flujo de atención."
+        )
+
+        return {
+            "mensaje": mensaje,
+            "categoria": None,
+            "respuesta": RESPUESTA_ERROR_GENERAL,
+        }
+
+
 if __name__ == "__main__":
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(levelname)s: %(message)s",
+    )
+
     load_dotenv()
 
     api_key = os.getenv("GEMINI_API_KEY")
@@ -179,9 +244,10 @@ if __name__ == "__main__":
         print("\n=== MENSAJE ===")
         print(caso["mensaje"])
 
-        resultado = flujo.invoke({
-            "mensaje": caso["mensaje"],
-        })
+        resultado = procesar_mensaje_seguro(
+            flujo,
+            caso["mensaje"],
+        )
 
         print("Categoría esperada:", caso["esperada"])
         print(

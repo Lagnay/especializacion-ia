@@ -30,3 +30,5 @@
 - [Bloque 18 — Cadena de reclamos con LangChain](Bloque%2018/CADENA_RECLAMOS.md).
 
 - [Bloque 19 — Enrutamiento condicional](Bloque%2019/ENRUTAMIENTO_CONDICIONAL.md).
+
+- [Bloque 20 — Manejo de errores y verificación de la orquestación](Bloque%2020/VERIFICACION_ORQUESTACION.md).

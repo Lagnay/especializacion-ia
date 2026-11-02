@@ -232,9 +232,24 @@ La categoría esperada no se envía al modelo.
 
 `construir_flujo_atencion(modelo)` recibe el modelo y devuelve
 el flujo sin ejecutarlo. El flujo acepta un diccionario con
-la clave `mensaje` y devuelve un diccionario con `mensaje`,
-`categoria` y `respuesta`. `categoria` conserva la etiqueta
-normalizada, incluso si no es reconocida.
+la clave `mensaje` y devuelve `mensaje`, `categoria` y `respuesta`.
+`categoria` conserva la etiqueta normalizada, incluso si no es
+reconocida.
+
+Para ejecutarlo con protección general se utiliza
+`procesar_mensaje_seguro(flujo, mensaje)`. La ruta de quejas tiene
+un respaldo propio con `with_fallbacks`: registra el fallo y devuelve
+un mensaje fijo, conservando la categoría `queja`.
+
+Si una excepción llega al manejador general, este registra
+el error y su traceback, y devuelve las mismas tres claves,
+con `categoria: None` y una respuesta controlada.
+La ruta desconocida atiende etiquetas no reconocidas;
+no sustituye al manejo de excepciones.
+
+Los registros se muestran en la consola; no se guardan en un archivo.
+La validación de la credencial y la construcción del modelo ocurren
+antes de la ejecución protegida.
 
 Una ejecución exitosa requiere dos invocaciones al modelo para
 una pregunta o sugerencia, cuatro para una queja y una para
@@ -247,12 +262,10 @@ ni los reintentos de `src/cliente.py`.
 
 Muestra borradores en la terminal, sin enviar mensajes ni ejecutar
 gestiones de atención. Las respuestas pueden variar y requieren
-revisión humana.
+revisión humana. Una respuesta incorrecta sin excepción no activa
+automáticamente el respaldo.
 
-La ruta desconocida maneja etiquetas no reconocidas; las excepciones
-del proveedor todavía se propagan.
-
-La ejecución y su revisión están disponibles en el índice
+La ejecución, las pruebas y sus límites están disponibles en el índice
 de documentación y evidencias.
 
 ### Procesamiento y evaluación de texto
@@ -483,8 +496,11 @@ python -m pytest tests/test_enrutamiento.py -v
 ```
 
 Comprueban selección de una sola ruta, etiquetas desconocidas,
-normalización y conexión del flujo completo mediante componentes
-y respuestas simuladas. No consultan Gemini.
+normalización e integración del flujo. También verifican el respaldo
+de quejas, la protección general ante fallos de clasificación y de
+otras rutas, los registros de diagnóstico y la conservación del
+formato de salida. Los mensajes vacíos o ambiguos se prueban con
+una clasificación simulada. No consultan Gemini.
 
 En el entorno probado puede aparecer un `DeprecationWarning`
 de `google-genai`, relacionado con `_UnionGenericAlias`.
