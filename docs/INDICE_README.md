@@ -28,3 +28,5 @@
 - [Límites de la métrica de evaluación](limites_metrica.md).
 
 - [Bloque 18 — Cadena de reclamos con LangChain](Bloque%2018/CADENA_RECLAMOS.md).
+
+- [Bloque 19 — Enrutamiento condicional](Bloque%2019/ENRUTAMIENTO_CONDICIONAL.md).

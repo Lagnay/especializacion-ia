@@ -6,9 +6,11 @@ manejo de errores, reintentos y estimación de costos; un pipeline
 de procesamiento y comparación léxica de texto; pruebas unitarias
 y ejercicios de aprendizaje.
 
-También incluye una cadena de tres etapas con LangChain para
+Incluye una cadena de tres etapas con LangChain para
 analizar reclamos, preparar un plan interno y generar un borrador
-de respuesta sujeto a revisión.
+de respuesta sujeto a revisión. E incorpora un flujo que clasifica
+mensajes y selecciona tratamientos para preguntas, quejas,
+sugerencias y entradas sin una categoría reconocida.
 
 ## Requisitos
 
@@ -206,6 +208,51 @@ o introducir afirmaciones y compromisos sin respaldo.
 Las respuestas pueden variar.
 
 La ejecución y su revisión están documentadas en el índice
+de documentación y evidencias.
+
+### Atención de mensajes con enrutamiento condicional
+
+Desde la raíz del repositorio, con el entorno virtual activo,
+las dependencias instaladas y la credencial configurada:
+
+```powershell
+python -m src.enrutamiento
+```
+
+Ejecuta cuatro mensajes ficticios mediante el modelo
+`gemini-3.5-flash-lite`. Clasifica cada mensaje, normaliza la etiqueta
+y selecciona un tratamiento para pregunta, queja o sugerencia.
+Las etiquetas restantes utilizan una ruta fija de aclaración.
+
+La ruta de quejas reutiliza `src/cadena_reclamos.py`.
+
+El programa muestra el mensaje, la categoría esperada,
+la etiqueta normalizada, su coincidencia y la respuesta.
+La categoría esperada no se envía al modelo.
+
+`construir_flujo_atencion(modelo)` recibe el modelo y devuelve
+el flujo sin ejecutarlo. El flujo acepta un diccionario con
+la clave `mensaje` y devuelve un diccionario con `mensaje`,
+`categoria` y `respuesta`. `categoria` conserva la etiqueta
+normalizada, incluso si no es reconocida.
+
+Una ejecución exitosa requiere dos invocaciones al modelo para
+una pregunta o sugerencia, cuatro para una queja y una para
+una entrada enviada a la ruta desconocida. Los cuatro casos
+prevén nueve invocaciones si reciben las categorías esperadas.
+
+Configura un timeout de 30 segundos por solicitud y desactiva
+los reintentos automáticos. No incorpora el registro de costos
+ni los reintentos de `src/cliente.py`.
+
+Muestra borradores en la terminal, sin enviar mensajes ni ejecutar
+gestiones de atención. Las respuestas pueden variar y requieren
+revisión humana.
+
+La ruta desconocida maneja etiquetas no reconocidas; las excepciones
+del proveedor todavía se propagan.
+
+La ejecución y su revisión están disponibles en el índice
 de documentación y evidencias.
 
 ### Procesamiento y evaluación de texto
@@ -428,6 +475,16 @@ python -m pytest tests/test_cadena_reclamos.py -v
 Comprueba tres llamadas simuladas, el paso del análisis y del plan,
 la conservación del mensaje original y la salida final.
 No consulta Gemini ni evalúa la calidad de sus respuestas.
+
+Para ejecutar únicamente las pruebas de enrutamiento:
+
+```powershell
+python -m pytest tests/test_enrutamiento.py -v
+```
+
+Comprueban selección de una sola ruta, etiquetas desconocidas,
+normalización y conexión del flujo completo mediante componentes
+y respuestas simuladas. No consultan Gemini.
 
 En el entorno probado puede aparecer un `DeprecationWarning`
 de `google-genai`, relacionado con `_UnionGenericAlias`.
