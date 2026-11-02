@@ -157,7 +157,9 @@ if __name__ == "__main__":
         default=(
             raiz
             / "docs"
-            / "Bloque 17"
+            / "modulo_02"
+            / "unidad_2_2"
+            / "bloque_17"
             / "resultados_metricas.json"
         ),
         help="Archivo donde guardar o reanudar la evaluación.",

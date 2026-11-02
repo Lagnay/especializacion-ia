@@ -102,7 +102,9 @@ if __name__ == "__main__":
     carpeta = (
         Path(__file__).resolve().parents[1]
         / "docs"
-        / "Bloque 16"
+        / "modulo_02"
+        / "unidad_2_2"
+        / "bloque_16"
     )
     carpeta.mkdir(parents=True, exist_ok=True)
 

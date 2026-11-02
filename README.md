@@ -310,7 +310,7 @@ Los registros históricos conservan sus datos originales;
 no se actualizan al modificar el catálogo.
 
 La evaluación también calcula precisión, cobertura y F1, y guarda
-un registro JSON nuevo en `docs/Bloque 16`, con fecha y hora en el
+un registro JSON nuevo en `docs/modulo_02/unidad_2_2/bloque_16`, con fecha y hora en el
 nombre. Crea la carpeta si no existe y conserva registros anteriores.
 El archivo incluye consultas, referencias, respuestas completas,
 métricas, configuración y errores registrados.
@@ -318,7 +318,7 @@ métricas, configuración y errores registrados.
 Para resumir un registro guardado, sin consultar la API ni modificarlo:
 
 ```powershell
-python -m src.resumir_evaluacion "docs/Bloque 16/resultados_metricas_20261027_202048_949209.json"
+python -m src.resumir_evaluacion "docs/modulo_02/unidad_2_2/bloque_16/resultados_metricas_20261027_202048_949209.json"
 ```
 
 El comando muestra los promedios y ordena los casos por F1 ascendente.
@@ -389,7 +389,7 @@ python -m src.evaluar_lote --ejecutar
 Una evaluación nueva realiza veinte consultas previstas.
 Los reintentos del cliente pueden añadir peticiones.
 Se introducen cinco segundos entre casos y se guarda el progreso
-en `docs/Bloque 17/resultados_metricas.json`.
+en `docs/modulo_02/unidad_2_2/bloque_17/resultados_metricas.json`.
 
 Si falla un caso, el lote guarda el avance y se detiene.
 Después de resolver la causa, el mismo comando continúa únicamente
@@ -406,7 +406,7 @@ seguido de la ruta de un archivo nuevo.
 Ejemplo opcional, que realiza nuevas consultas y consume cuota:
 
 ```powershell
-python -m src.evaluar_lote --ejecutar --registro "docs/Bloque 17/resultados_metricas_otra_ejecucion.json"
+python -m src.evaluar_lote --ejecutar --registro "docs/modulo_02/unidad_2_2/bloque_17/resultados_metricas_otra_ejecucion.json"
 ```
 
 Para reanudar esa evaluación, repite el comando con la misma ruta.
@@ -419,7 +419,7 @@ sobre ese registro no genera respuestas nuevas.
 Para resumir el lote guardado sin consultar la API:
 
 ```powershell
-python -m src.resumir_evaluacion "docs/Bloque 17/resultados_metricas.json"
+python -m src.resumir_evaluacion "docs/modulo_02/unidad_2_2/bloque_17/resultados_metricas.json"
 ```
 
 La revisión humana y los límites observados están disponibles
@@ -581,11 +581,11 @@ de `python -m src.main` deben mantener limpio el estado de Git.
 
 Reejecutar el banco de prompts puede modificar sus registros.
 Ejecutar `python -m src.evaluar_texto` crea un registro nuevo
-en `docs/Bloque 16`, que aparecerá como archivo sin seguimiento
+en `docs/modulo_02/unidad_2_2/bloque_16`, que aparecerá como archivo sin seguimiento
 hasta incorporarlo a Git.
 
 Ejecutar `python -m src.evaluar_lote --ejecutar` puede crear o
-actualizar el registro del lote en `docs/Bloque 17`, por lo que
+actualizar el registro del lote en `docs/modulo_02/unidad_2_2/bloque_17`, por lo que
 pueden aparecer cambios esperados en Git.
 
 Ejecutar `python -m src.resumir_evaluacion` solamente lee
@@ -596,12 +596,27 @@ el registro seleccionado y muestra su análisis.
 | Ruta | Contenido |
 | --- | --- |
 | `src/` | Módulos de la aplicación y programa principal |
-| `src/practicas/` | Ejercicios y versiones utilizadas durante el aprendizaje |
+| `laboratorio/practicas/` | Ejercicios y versiones didácticas organizados por módulo, unidad y bloque |
 | `tests/` | Pruebas unitarias y scripts de comprobación local |
 | `prompts/` | Banco de prompts, validación y registros de resultados |
-| `docs/` | Documentación, diagramas y evidencias |
+| `docs/` | Documentación y evidencias organizadas por módulo, unidad y bloque, además de documentos generales |
 | `requirements.txt` | Paquetes y versiones del entorno |
 | `.env.example` | Plantilla de configuración sin credenciales reales |
+
+Las prácticas se conservan en `laboratorio/practicas`, separadas
+de los módulos de la aplicación. Sus carpetas identifican el módulo,
+la unidad y el bloque del curso.
+
+Se ejecutan desde la raíz del repositorio, con el entorno virtual
+activo, mediante `python -m`. Por ejemplo, esta práctica local
+interpreta un JSON sin consultar Gemini:
+
+```powershell
+python -m laboratorio.practicas.modulo_01.unidad_1_3.bloque_05.practica_json
+```
+
+Otras prácticas sí realizan consultas reales o ensayos de varias
+peticiones; debe revisarse su contenido antes de ejecutarlas.
 
 El entorno `venv/` y la configuración local `.env` están excluidos de Git. Cada instalación debe crear su propio entorno; las credenciales no se publican.
 
