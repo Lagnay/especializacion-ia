@@ -12,6 +12,9 @@ de respuesta sujeto a revisión. E incorpora un flujo que clasifica
 mensajes y selecciona tratamientos para preguntas, quejas,
 sugerencias y entradas sin una categoría reconocida.
 
+También incluye un agente que consulta stock y estados de pedidos
+ficticios mediante herramientas.
+
 ## Requisitos
 
 - Git y acceso a Internet para obtener el repositorio y sus dependencias.
@@ -266,6 +269,34 @@ revisión humana. Una respuesta incorrecta sin excepción no activa
 automáticamente el respaldo.
 
 La ejecución, las pruebas y sus límites están disponibles en el índice
+de documentación y evidencias.
+
+### Agente con herramientas
+
+Desde la raíz del repositorio, con el entorno virtual activo,
+las dependencias instaladas y la credencial configurada:
+
+```powershell
+python -m src.agente_con_herramientas
+```
+
+Ejecuta cuatro casos: stock, pedido, una consulta combinada y un saludo.
+Para ejecutar solamente uno:
+
+```powershell
+python -m src.agente_con_herramientas pedido
+```
+
+También se aceptan `stock`, `combinado` y `saludo`.
+Estos comandos consultan Gemini y consumen cuota.
+
+El agente elige entre dos herramientas con datos locales ficticios.
+Muestra herramientas utilizadas, argumentos, observaciones y respuesta
+final. No modifica inventario ni realiza gestiones sobre pedidos.
+
+La construcción reutilizable está en `src/agente_con_herramientas.py`
+y las herramientas en `src/herramientas_tienda.py`.
+La verificación manual y sus límites están disponibles en el índice
 de documentación y evidencias.
 
 ### Procesamiento y evaluación de texto

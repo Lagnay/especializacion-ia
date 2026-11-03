@@ -53,6 +53,10 @@ históricos conservan la información obtenida en cada actividad.
 - [Bloque 19 — Enrutamiento condicional](modulo_02/unidad_2_3/bloque_19/ENRUTAMIENTO_CONDICIONAL.md).
 - [Bloque 20 — Manejo de errores y verificación de la orquestación](modulo_02/unidad_2_3/bloque_20/VERIFICACION_ORQUESTACION.md).
 
+### Unidad 2.4
+
+- [Bloque 21 — Agente con dos herramientas propias](modulo_02/unidad_2_4/bloque_21/AGENTE_CON_HERRAMIENTAS.md).
+
 ## Laboratorio de prácticas
 
 Los ejercicios y las versiones didácticas están separados del código
