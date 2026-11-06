@@ -12,8 +12,9 @@ de respuesta sujeto a revisión. E incorpora un flujo que clasifica
 mensajes y selecciona tratamientos para preguntas, quejas,
 sugerencias y entradas sin una categoría reconocida.
 
-También incluye un agente que consulta stock y estados de pedidos
-ficticios mediante herramientas.
+También incluye agentes que consultan stock y estados de pedidos
+ficticios mediante herramientas, con una implementación que incorpora
+argumentos estructurados y memoria de conversación por sesión.
 
 ## Requisitos
 
@@ -299,6 +300,51 @@ y las herramientas en `src/herramientas_tienda.py`.
 La verificación manual y sus límites están disponibles en el índice
 de documentación y evidencias.
 
+### Agente con memoria de conversación
+
+Desde la raíz del repositorio, con el entorno virtual activo
+y las dependencias instaladas:
+
+```powershell
+python -m src.agente_con_memoria
+```
+
+Muestra el modo de preparación y no realiza consultas.
+
+Con la credencial configurada, para ejecutar la demostración:
+
+```powershell
+python -m src.agente_con_memoria --ejecutar
+```
+
+Realiza dos turnos en una conversación y uno en otra independiente.
+Muestra herramientas, argumentos, observaciones, respuestas y mensajes
+guardados. Consulta Gemini y consume cuota.
+
+La construcción reutilizable está en `src/agente_con_memoria.py`.
+La herramienta de pedidos con argumentos validados mediante Pydantic
+está en `src/herramientas_pedidos.py`; también se reutiliza
+la herramienta de stock.
+
+Utiliza `create_agent`, `InMemorySaver` y conversaciones identificadas
+mediante `thread_id`. El estado se conserva durante la ejecución
+del proceso y no se guarda entre reinicios. El historial puede aumentar
+el consumo de tokens en turnos posteriores.
+
+Se adaptó la guía a la API recomendada y actualizada debido
+a la deprecación de `InMemoryChatMessageHistory`. La práctica original
+se conserva como referencia y el agente del Bloque 21 mantiene
+su implementación.
+
+Para explorar la memoria con respuestas simuladas, sin consultar Gemini:
+
+```powershell
+python -m laboratorio.practicas.modulo_02.unidad_2_4.bloque_22.practica_memoria_actual
+```
+
+La evaluación real, las pruebas y los límites están documentados
+en el índice de documentación y evidencias.
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -532,6 +578,16 @@ de quejas, la protección general ante fallos de clasificación y de
 otras rutas, los registros de diagnóstico y la conservación del
 formato de salida. Los mensajes vacíos o ambiguos se prueban con
 una clasificación simulada. No consultan Gemini.
+
+Para ejecutar únicamente las pruebas del agente con memoria:
+
+```powershell
+python -m pytest tests/test_agente_con_memoria.py -v
+```
+
+Comprueban argumentos de la herramienta, pedidos inexistentes,
+conservación del historial y separación de sesiones mediante
+respuestas simuladas. No consultan Gemini.
 
 En el entorno probado puede aparecer un `DeprecationWarning`
 de `google-genai`, relacionado con `_UnionGenericAlias`.
