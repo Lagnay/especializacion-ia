@@ -1,0 +1,4 @@
+{"herramienta": "simular_reembolso", "argumentos": {"numero_pedido": "P-301", "monto": 1500}, "aprobado": true, "momento": "2026-11-07T01:40:55.895746+00:00"}
+{"herramienta": "simular_reembolso", "argumentos": {"numero_pedido": "P-301", "monto": 1500}, "aprobado": false, "momento": "2026-11-07T01:44:00.701582+00:00"}
+{"herramienta": "simular_reembolso", "argumentos": {"numero_pedido": "P-301", "monto": 1500}, "aprobado": true, "momento": "2026-11-07T01:44:41.970619+00:00"}
+{"herramienta": "simular_reembolso", "argumentos": {"numero_pedido": "P-301", "monto": 1500}, "aprobado": false, "momento": "2026-11-07T01:46:09.902995+00:00"}

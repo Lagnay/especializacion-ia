@@ -345,6 +345,46 @@ python -m laboratorio.practicas.modulo_02.unidad_2_4.bloque_22.practica_memoria_
 La evaluación real, las pruebas y los límites están documentados
 en el índice de documentación y evidencias.
 
+### Agente con supervisión humana y trazas
+
+Desde la raíz, con el entorno virtual activo y las dependencias instaladas:
+
+```powershell
+python -m src.agente_supervisado
+```
+
+Muestra el modo de preparación, sin consultar Gemini.
+
+Con la credencial configurada, ejecutar por separado:
+
+```powershell
+python -m src.agente_supervisado --ejecutar --caso stock
+python -m src.agente_supervisado --ejecutar --caso reembolso
+```
+
+El primer caso consulta existencias ficticias. El segundo solicita
+aprobación humana para simular un reembolso en pesos enteros;
+no mueve dinero. Ambos consultan Gemini y consumen cuota.
+
+La aprobación dispone de 30 segundos. En Windows se pulsa `s` o `n`
+sin Enter; en Linux/macOS se confirma con Enter.
+La ejecución fue comprobada en Windows; los otros sistemas
+están pendientes de comprobación.
+
+Cada comando inicia una conversación nueva. Las interacciones
+completadas se añaden a
+`docs/modulo_02/unidad_2_4/bloque_23/trazas_agente.jsonl`
+y las decisiones a `aprobaciones.jsonl` dentro de la misma carpeta.
+
+Para revisar repeticiones consecutivas sin consultar Gemini:
+
+```powershell
+python -c "from pathlib import Path; from src.trazas_agente import revisar_trazas; revisar_trazas(Path('docs/modulo_02/unidad_2_4/bloque_23/trazas_agente.jsonl'))"
+```
+
+Los límites de autonomía, la evaluación y las restricciones del registro
+están disponibles en el índice de documentación y evidencias.
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -588,6 +628,16 @@ python -m pytest tests/test_agente_con_memoria.py -v
 Comprueban argumentos de la herramienta, pedidos inexistentes,
 conservación del historial y separación de sesiones mediante
 respuestas simuladas. No consultan Gemini.
+
+Para ejecutar únicamente las pruebas del agente supervisado:
+
+```powershell
+python -m pytest tests/test_agente_supervisado.py -v
+```
+
+Comprueban aprobación y rechazo, montos inválidos, registro de decisiones,
+fallos de escritura e integración y extracción de acciones.
+Utilizan respuestas simuladas y archivos temporales, sin consultar Gemini.
 
 En el entorno probado puede aparecer un `DeprecationWarning`
 de `google-genai`, relacionado con `_UnionGenericAlias`.

@@ -57,6 +57,7 @@ históricos conservan la información obtenida en cada actividad.
 
 - [Bloque 21 — Agente con dos herramientas propias](modulo_02/unidad_2_4/bloque_21/AGENTE_CON_HERRAMIENTAS.md).
 - [Bloque 22 — Herramientas estructuradas y memoria de conversación](modulo_02/unidad_2_4/bloque_22/HERRAMIENTAS_Y_MEMORIA.md).
+- [Bloque 23 — Límites de autonomía y supervisión humana](modulo_02/unidad_2_4/bloque_23/limites_autonomia_agente.md).
 
 ## Laboratorio de prácticas
 
