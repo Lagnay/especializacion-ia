@@ -385,6 +385,24 @@ python -c "from pathlib import Path; from src.trazas_agente import revisar_traza
 Los límites de autonomía, la evaluación y las restricciones del registro
 están disponibles en el índice de documentación y evidencias.
 
+### Indexación del corpus para RAG
+
+Desde la raíz del repositorio, con el entorno virtual activo y las
+dependencias instaladas:
+
+```powershell
+python -m src.indexar_corpus
+python -m src.indexar_corpus --ejecutar
+python -m src.indexar_corpus --verificar
+```
+
+El primer comando muestra la colección y el número de fragmentos.
+`--ejecutar` requiere `GEMINI_API_KEY` y envía los fragmentos pendientes
+a Gemini para generar sus embeddings. `--verificar` lee los vectores
+guardados en `vectorstore/` sin recalcularlos.
+
+El índice se genera localmente y está excluido de Git.
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,

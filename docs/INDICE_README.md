@@ -59,6 +59,10 @@ históricos conservan la información obtenida en cada actividad.
 - [Bloque 22 — Herramientas estructuradas y memoria de conversación](modulo_02/unidad_2_4/bloque_22/HERRAMIENTAS_Y_MEMORIA.md).
 - [Bloque 23 — Límites de autonomía y supervisión humana](modulo_02/unidad_2_4/bloque_23/limites_autonomia_agente.md).
 
+### Unidad 2.5
+
+- [Bloque 24 — Indexación del corpus y persistencia en Chroma](modulo_02/unidad_2_5/bloque_24/INDICE_CHROMA.md).
+
 ## Laboratorio de prácticas
 
 Los ejercicios y las versiones didácticas están separados del código
