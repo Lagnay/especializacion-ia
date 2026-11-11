@@ -62,6 +62,7 @@ históricos conservan la información obtenida en cada actividad.
 ### Unidad 2.5
 
 - [Bloque 24 — Indexación del corpus y persistencia en Chroma](modulo_02/unidad_2_5/bloque_24/INDICE_CHROMA.md).
+- [Bloque 26 — Recuperación semántica y respuestas con citas](modulo_02/unidad_2_5/bloque_26/RECUPERACION_Y_CITAS.md).
 
 ## Laboratorio de prácticas
 

@@ -403,6 +403,34 @@ guardados en `vectorstore/` sin recalcularlos.
 
 El índice se genera localmente y está excluido de Git.
 
+### Recuperación semántica y respuestas con citas
+
+Requiere el índice del corpus creado en el paso anterior,
+las dependencias instaladas y `GEMINI_API_KEY` configurada.
+
+Desde la raíz, con el entorno virtual activo:
+
+```powershell
+python -m src.recuperacion "¿Qué hace el programa cuando la conexión tarda demasiado?"
+```
+
+Recupera tres fragmentos del índice y muestra el prompt numerado
+y su mapa de fuentes. `--k` permite cambiar la cantidad solicitada.
+
+Para generar también una respuesta:
+
+```powershell
+python -m src.recuperacion "¿Qué hace el programa cuando la conexión tarda demasiado?" --responder
+```
+
+La recuperación consulta el modelo de embeddings.
+`--responder` añade una llamada de generación y muestra las fuentes
+citadas. Estos comandos consumen cuota.
+
+El lector admite citas individuales y agrupadas.
+La evidencia y sus límites están disponibles en el índice
+de documentación.
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -657,9 +685,20 @@ Comprueban aprobación y rechazo, montos inválidos, registro de decisiones,
 fallos de escritura e integración y extracción de acciones.
 Utilizan respuestas simuladas y archivos temporales, sin consultar Gemini.
 
-En el entorno probado puede aparecer un `DeprecationWarning`
-de `google-genai`, relacionado con `_UnionGenericAlias`.
-La ejecución verificada terminó con todas las pruebas pasadas.
+Para comprobar el lector de citas:
+
+```powershell
+python -m pytest tests/test_recuperacion.py -v
+```
+
+Comprueba referencias individuales, agrupadas, repetidas,
+con espacios y fuera del contexto, además de respuestas sin citas.
+Los seis casos se ejecutan localmente.
+
+En el entorno probado aparecen advertencias de deprecación
+de `google-genai`, relacionadas con `_UnionGenericAlias`,
+y de Chroma, relacionadas con `asyncio.iscoroutinefunction`.
+Las pruebas verificadas terminan correctamente.
 
 Las pruebas del cliente comprueban estados HTTP, reintentos,
 costos y coordinación mediante respuestas simuladas.
