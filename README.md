@@ -431,6 +431,44 @@ El lector admite citas individuales y agrupadas.
 La evidencia y sus límites están disponibles en el índice
 de documentación.
 
+### Evaluación de la recuperación
+
+Evalúa doce preguntas con fragmentos relevantes etiquetados previamente,
+mediante precisión, recall y F1.
+
+Desde la raíz, con el entorno virtual activo y las dependencias instaladas,
+puedes comprobar la preparación sin consultar Gemini:
+
+```powershell
+python -m src.casos_recuperacion
+python -m src.evaluar_recuperacion
+```
+
+La evaluación real requiere `GEMINI_API_KEY` y el índice del corpus creado:
+
+```powershell
+python -m src.evaluar_recuperacion --ejecutar --k 3
+```
+
+`--k` controla la cantidad de fragmentos solicitados por pregunta.
+La ejecución consulta el modelo de embeddings y consume cuota.
+No vuelve a indexar el corpus ni genera respuestas finales.
+
+Al completar cada corrida se guardan archivos JSON y TXT nuevos, con fecha,
+configuración, resultados y promedios, en
+`docs/modulo_02/unidad_2_5/bloque_27/`. El JSON también conserva los
+identificadores relevantes y recuperados.
+
+Los registros anteriores se conservan. El guardado se realiza al finalizar
+el lote; no se reanudan automáticamente ejecuciones interrumpidas.
+
+Si cambia el corpus o su fragmentación, deben revisarse las etiquetas,
+actualizarse los valores de fragmentación registrados por el evaluador
+e indexarse el corpus correspondiente.
+
+La comparación entre `k=3` y `k=5`, sus registros y sus límites están
+documentados en el [informe de evaluación de la recuperación](docs/modulo_02/unidad_2_5/bloque_27/EVALUACION_RECUPERACION.md).
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -694,6 +732,16 @@ python -m pytest tests/test_recuperacion.py -v
 Comprueba referencias individuales, agrupadas, repetidas,
 con espacios y fuera del contexto, además de respuestas sin citas.
 Los seis casos se ejecutan localmente.
+
+Para comprobar las métricas y la evaluación de la recuperación:
+
+```powershell
+python -m pytest tests/test_metricas_recuperacion.py tests/test_evaluar_recuperacion.py -v
+```
+
+Las diez pruebas utilizan datos preparados y un recuperador simulado,
+sin consultar Gemini. Comprueban métricas, casos vacíos, identificadores
+repetidos, coordinación, promedios y valores de k inválidos.
 
 En el entorno probado aparecen advertencias de deprecación
 de `google-genai`, relacionadas con `_UnionGenericAlias`,

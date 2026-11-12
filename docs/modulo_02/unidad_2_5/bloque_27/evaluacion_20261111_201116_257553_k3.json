@@ -1,0 +1,197 @@
+{
+  "fecha": "2026-11-11T20:11:16.257553-03:00",
+  "configuracion": {
+    "coleccion": "proyecto-09ca32e294f70044",
+    "modelo_embeddings": "models/gemini-embedding-001",
+    "dimensiones": 3072,
+    "chunk_size": 240,
+    "chunk_overlap": 35
+  },
+  "k": 3,
+  "resultados": [
+    {
+      "id": "R01",
+      "pregunta": "¿Cuántos intentos permite el cliente REST por consulta?",
+      "ids_relevantes": [
+        "fragmento-001"
+      ],
+      "ids_recuperados": [
+        "fragmento-001",
+        "fragmento-002",
+        "fragmento-003"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R02",
+      "pregunta": "¿Qué tipos de fallos pueden activar un reintento?",
+      "ids_relevantes": [
+        "fragmento-001"
+      ],
+      "ids_recuperados": [
+        "fragmento-001",
+        "fragmento-002",
+        "fragmento-003"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R03",
+      "pregunta": "¿Desde cuánto comienza la espera entre intentos, cómo varía y cuál es su máximo?",
+      "ids_relevantes": [
+        "fragmento-002"
+      ],
+      "ids_recuperados": [
+        "fragmento-002",
+        "fragmento-001",
+        "fragmento-006"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R04",
+      "pregunta": "¿Qué hace el cliente cuando también falla el último intento?",
+      "ids_relevantes": [
+        "fragmento-002"
+      ],
+      "ids_recuperados": [
+        "fragmento-002",
+        "fragmento-001",
+        "fragmento-003"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R05",
+      "pregunta": "¿Cómo trata el cliente los estados HTTP 401 y 403 y los reintenta automáticamente?",
+      "ids_relevantes": [
+        "fragmento-003"
+      ],
+      "ids_recuperados": [
+        "fragmento-003",
+        "fragmento-001",
+        "fragmento-002"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R06",
+      "pregunta": "¿Con qué datos se estima el costo de una consulta y cómo se acumula?",
+      "ids_relevantes": [
+        "fragmento-004"
+      ],
+      "ids_recuperados": [
+        "fragmento-004",
+        "fragmento-001",
+        "fragmento-006"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R07",
+      "pregunta": "¿Cómo se separan los historiales de distintas conversaciones?",
+      "ids_relevantes": [
+        "fragmento-005"
+      ],
+      "ids_recuperados": [
+        "fragmento-005",
+        "fragmento-004",
+        "fragmento-001"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R08",
+      "pregunta": "¿Se conserva la memoria del agente después de cerrar el proceso?",
+      "ids_relevantes": [
+        "fragmento-005"
+      ],
+      "ids_recuperados": [
+        "fragmento-005",
+        "fragmento-002",
+        "fragmento-004"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R09",
+      "pregunta": "¿Qué condiciones debe cumplir el monto del reembolso simulado?",
+      "ids_relevantes": [
+        "fragmento-006"
+      ],
+      "ids_recuperados": [
+        "fragmento-006",
+        "fragmento-004",
+        "fragmento-002"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R10",
+      "pregunta": "¿Qué ocurre con el reembolso simulado si se rechaza la aprobación o se agota el tiempo para responder?",
+      "ids_relevantes": [
+        "fragmento-006"
+      ],
+      "ids_recuperados": [
+        "fragmento-006",
+        "fragmento-002",
+        "fragmento-001"
+      ],
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "id": "R11",
+      "pregunta": "¿Cuántos intentos permite el cliente y cómo cambia la espera entre ellos?",
+      "ids_relevantes": [
+        "fragmento-001",
+        "fragmento-002"
+      ],
+      "ids_recuperados": [
+        "fragmento-002",
+        "fragmento-001",
+        "fragmento-003"
+      ],
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1": 0.8
+    },
+    {
+      "id": "R12",
+      "pregunta": "¿Cuál es el número de teléfono del soporte de esta tienda?",
+      "ids_relevantes": [],
+      "ids_recuperados": [
+        "fragmento-006",
+        "fragmento-001",
+        "fragmento-002"
+      ],
+      "precision": 0.0,
+      "recall": null,
+      "f1": null
+    }
+  ],
+  "promedios": {
+    "precision": 0.3333333333333333,
+    "recall": 1.0,
+    "f1": 0.5272727272727272
+  }
+}

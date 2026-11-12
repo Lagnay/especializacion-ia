@@ -1,0 +1,20 @@
+Fecha: 2026-11-11T20:11:59.657182-03:00
+Configuración: {"coleccion": "proyecto-09ca32e294f70044", "modelo_embeddings": "models/gemini-embedding-001", "dimensiones": 3072, "chunk_size": 240, "chunk_overlap": 35}
+k: 5
+
+R01 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Cuántos intentos permite el cliente REST por consulta?
+R02 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Qué tipos de fallos pueden activar un reintento?
+R03 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Desde cuánto comienza la espera entre intentos, cómo varía y cuál es su máximo?
+R04 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Qué hace el cliente cuando también falla el último intento?
+R05 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Cómo trata el cliente los estados HTTP 401 y 403 y los reintenta automáticamente?
+R06 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Con qué datos se estima el costo de una consulta y cómo se acumula?
+R07 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Cómo se separan los historiales de distintas conversaciones?
+R08 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Se conserva la memoria del agente después de cerrar el proceso?
+R09 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Qué condiciones debe cumplir el monto del reembolso simulado?
+R10 | precision=0.200 | recall=1.000 | f1=0.333 | ¿Qué ocurre con el reembolso simulado si se rechaza la aprobación o se agota el tiempo para responder?
+R11 | precision=0.400 | recall=1.000 | f1=0.571 | ¿Cuántos intentos permite el cliente y cómo cambia la espera entre ellos?
+R12 | precision=0.000 | recall=N/D | f1=N/D | ¿Cuál es el número de teléfono del soporte de esta tienda?
+
+Promedio precision: 0.200
+Promedio recall: 1.000
+Promedio f1: 0.355
