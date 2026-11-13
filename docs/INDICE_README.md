@@ -64,6 +64,7 @@ históricos conservan la información obtenida en cada actividad.
 - [Bloque 24 — Indexación del corpus y persistencia en Chroma](modulo_02/unidad_2_5/bloque_24/INDICE_CHROMA.md).
 - [Bloque 26 — Recuperación semántica y respuestas con citas](modulo_02/unidad_2_5/bloque_26/RECUPERACION_Y_CITAS.md).
 - [Bloque 27 — Evaluación de la recuperación](modulo_02/unidad_2_5/bloque_27/EVALUACION_RECUPERACION.md).
+- [Bloque 28 — Latencia del flujo RAG y costo de generación](modulo_02/unidad_2_5/bloque_28/LATENCIA_Y_COSTO_RAG.md).
 
 ## Laboratorio de prácticas
 

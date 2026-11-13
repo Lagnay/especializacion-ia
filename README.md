@@ -469,6 +469,50 @@ e indexarse el corpus correspondiente.
 La comparación entre `k=3` y `k=5`, sus registros y sus límites están
 documentados en el [informe de evaluación de la recuperación](docs/modulo_02/unidad_2_5/bloque_27/EVALUACION_RECUPERACION.md).
 
+### Latencia y consumo del flujo RAG
+
+Desde la raíz, con el entorno virtual activo y las dependencias instaladas,
+para comprobar la preparación sin consultar Gemini:
+
+```powershell
+python -m src.registro_rag --caso R01 --k 3
+```
+
+Con el índice del corpus creado y `GEMINI_API_KEY` configurada,
+para medir una consulta real:
+
+```powershell
+python -m src.registro_rag --ejecutar --caso R01 --k 3
+```
+
+`--caso` selecciona una pregunta del catálogo de evaluación.
+`--k` controla los fragmentos solicitados, hasta la cantidad disponible.
+
+La ejecución mide por separado el embedding, la búsqueda vectorial y
+la generación. Consulta Gemini y consume cuota. El tiempo total medido
+incluye el armado del prompt; la preparación de componentes y la escritura
+del registro quedan fuera.
+
+Cada consulta completada añade una línea a
+`docs/modulo_02/unidad_2_5/bloque_28/registros_latencia_costo.jsonl`.
+Conserva tiempos, tokens informados, prompt, respuesta, fuentes,
+identificadores y configuración.
+
+Para analizar los registros incluidos, sin nuevas consultas ni modificar
+el archivo:
+
+```powershell
+python -m src.resumir_registro_rag
+```
+
+El lector también admite una ruta alternativa como argumento.
+Estima únicamente el costo de generación con las tarifas de referencia
+fechadas en su configuración. El costo de embeddings no está calculado
+y los importes no representan necesariamente cargos reales.
+
+Las mediciones, la comparación de k y sus límites están en el
+[informe de latencia y costo de generación](docs/modulo_02/unidad_2_5/bloque_28/LATENCIA_Y_COSTO_RAG.md).
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -743,6 +787,17 @@ Las diez pruebas utilizan datos preparados y un recuperador simulado,
 sin consultar Gemini. Comprueban métricas, casos vacíos, identificadores
 repetidos, coordinación, promedios y valores de k inválidos.
 
+Para comprobar la instrumentación, el guardado y el lector de registros RAG:
+
+```powershell
+python -m pytest tests/test_registro_rag.py tests/test_resumir_registro_rag.py -v
+```
+
+Las 25 pruebas utilizan componentes simulados y archivos temporales.
+Comprueban tiempos, consumo, fallos, preparación sin consultas,
+conservación del JSONL y cálculo del costo de referencia.
+No consultan Gemini ni modifican el registro real.
+
 En el entorno probado aparecen advertencias de deprecación
 de `google-genai`, relacionadas con `_UnionGenericAlias`,
 y de Chroma, relacionadas con `asyncio.iscoroutinefunction`.
@@ -832,6 +887,11 @@ pueden aparecer cambios esperados en Git.
 
 Ejecutar `python -m src.resumir_evaluacion` solamente lee
 el registro seleccionado y muestra su análisis.
+
+Ejecutar `python -m src.registro_rag --ejecutar` añade un registro de
+evidencia al JSONL del bloque 28, por lo que puede generar cambios
+esperados en Git. `python -m src.resumir_registro_rag` solamente lee
+el archivo seleccionado.
 
 ## Estructura
 

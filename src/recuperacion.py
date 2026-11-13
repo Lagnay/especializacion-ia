@@ -84,8 +84,7 @@ def formatear_contexto(documentos):
     return "\n\n".join(bloques), citas
 
 
-def construir_prompt(pregunta, k=3):
-    documentos = recuperar_fragmentos(pregunta, k=k)
+def preparar_prompt(pregunta, documentos):
     contexto, citas = formatear_contexto(documentos)
 
     prompt = (
@@ -97,6 +96,11 @@ def construir_prompt(pregunta, k=3):
         "Respuesta:"
     )
     return prompt, citas
+
+
+def construir_prompt(pregunta, k=3):
+    documentos = recuperar_fragmentos(pregunta, k=k)
+    return preparar_prompt(pregunta, documentos)
 
 
 def resolver_citas(respuesta, citas):
