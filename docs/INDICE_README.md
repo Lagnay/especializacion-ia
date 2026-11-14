@@ -66,6 +66,10 @@ históricos conservan la información obtenida en cada actividad.
 - [Bloque 27 — Evaluación de la recuperación](modulo_02/unidad_2_5/bloque_27/EVALUACION_RECUPERACION.md).
 - [Bloque 28 — Latencia del flujo RAG y costo de generación](modulo_02/unidad_2_5/bloque_28/LATENCIA_Y_COSTO_RAG.md).
 
+### Unidad 2.6
+
+- [Bloque 29 — Dataset validado para personalización](modulo_02/unidad_2_6/bloque_29/DATASET_PERSONALIZACION.md).
+
 ## Laboratorio de prácticas
 
 Los ejercicios y las versiones didácticas están separados del código

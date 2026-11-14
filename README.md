@@ -513,6 +513,25 @@ y los importes no representan necesariamente cargos reales.
 Las mediciones, la comparación de k y sus límites están en el
 [informe de latencia y costo de generación](docs/modulo_02/unidad_2_5/bloque_28/LATENCIA_Y_COSTO_RAG.md).
 
+### Dataset para personalización
+
+Para construir y validar localmente el dataset de clasificación:
+
+```powershell
+python -m src.dataset_tuning
+```
+
+Incluye 16 mensajes ficticios, cuatro por categoría: queja, sugerencia,
+pregunta y desconocida. Comprueba entradas, duplicados, salidas JSON
+y cobertura de categorías.
+
+La ejecución no requiere credenciales, no consulta Gemini ni entrena
+un modelo. La salida JSON propuesta pertenece al ejercicio y todavía
+no está integrada en el enrutador existente.
+
+Las prácticas, los criterios y los límites del entrenamiento están en
+[Dataset validado para personalización](docs/modulo_02/unidad_2_6/bloque_29/DATASET_PERSONALIZACION.md).
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -797,6 +816,16 @@ Las 25 pruebas utilizan componentes simulados y archivos temporales.
 Comprueban tiempos, consumo, fallos, preparación sin consultas,
 conservación del JSONL y cálculo del costo de referencia.
 No consultan Gemini ni modifican el registro real.
+
+Para comprobar la construcción y validación del dataset de personalización:
+
+```powershell
+python -m pytest tests/test_dataset_tuning.py -v
+```
+
+Las 18 pruebas se ejecutan localmente. Comprueban entradas y salidas
+inválidas, duplicados, cantidad mínima y cobertura de categorías.
+No entrenan ni evalúan un modelo personalizado.
 
 En el entorno probado aparecen advertencias de deprecación
 de `google-genai`, relacionadas con `_UnionGenericAlias`,
