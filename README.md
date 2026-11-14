@@ -562,6 +562,33 @@ y la normalización del clasificador, y pospone el entrenamiento.
 Consulta la [decisión fundamentada](docs/modulo_02/unidad_2_6/bloque_30/decision_personalizacion.md)
 y el [apunte de estudio y reproducción](docs/modulo_02/unidad_2_6/bloque_30/ESTUDIO_PERSONALIZACION.md).
 
+### Logging y filtrado del contexto RAG
+
+Para comprobar la preparación de la demostración local:
+
+```powershell
+python -m laboratorio.practicas.modulo_02.unidad_2_7.bloque_31.practica_flujo_rag_instrumentado
+```
+
+Para ejecutar dos consultas simuladas y guardar sus eventos:
+
+```powershell
+python -m laboratorio.practicas.modulo_02.unidad_2_7.bloque_31.practica_flujo_rag_instrumentado --guardar
+```
+
+La demostración utiliza fragmentos del corpus y respuestas preparadas,
+sin consultar APIs. Añade eventos a
+`docs/modulo_02/unidad_2_7/bloque_31/trazas_rag_simuladas.jsonl`.
+Repetir `--guardar` añade otras dos trazas; `--registro` permite otra ruta.
+
+El flujo instrumentado combina identificadores por consulta,
+eventos JSON, consumo informado, filtrado de patrones,
+roles separados y contexto delimitado.
+
+La evidencia incluida contiene 17 eventos de dos consultas simuladas.
+Los límites del filtro, la política de registro y la reproducción están en
+[Logging y mitigación de inyección de prompt](docs/modulo_02/unidad_2_7/bloque_31/LOGGING_Y_MITIGACION_RAG.md).
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -867,6 +894,16 @@ Las 30 pruebas comprueban puntajes, empates, entradas inválidas,
 formato, clasificación, guardado y reanudación mediante simulaciones
 y archivos temporales. No consultan Gemini.
 
+Para comprobar el filtrado del contexto y la instrumentación RAG:
+
+```powershell
+python -m pytest tests/test_seguridad_rag.py tests/test_logging_rag.py -v
+```
+
+Las 34 pruebas utilizan datos locales, simulaciones y archivos temporales.
+Comprueban mensajes, citas, eventos JSON, consumo, errores,
+restauración del contexto y persistencia, sin consultar APIs.
+
 En el entorno probado aparecen advertencias de deprecación
 de `google-genai`, relacionadas con `_UnionGenericAlias`,
 y de Chroma, relacionadas con `asyncio.iscoroutinefunction`.
@@ -965,6 +1002,10 @@ el archivo seleccionado.
 Ejecutar `python -m src.evaluar_clasificacion --ejecutar` puede crear
 o actualizar el registro del bloque 30, por lo que pueden aparecer
 cambios esperados en Git. Sin `--ejecutar`, solo muestra la preparación.
+
+La demostración instrumentada del bloque 31 con `--guardar` añade
+eventos al JSONL de evidencias y puede producir cambios esperados en Git.
+Sin ese argumento, solamente muestra la preparación.
 
 ## Estructura
 

@@ -1,0 +1,17 @@
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "consulta_recibida", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {"pregunta_len": 55}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "recuperacion_inicio", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "recuperacion_fin", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {"n_documentos": 2}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "WARNING", "evento": "documento_sospechoso_descartado", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {"fuente": "prueba_inyeccion", "n_patrones": 3, "documento_sha256": "001a174441862abd83fb946c83eb01483cf23e8982c56e4105d3154c52a95c74"}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "contexto_filtrado", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {"n_limpios": 1, "n_descartados": 1, "fuentes": ["src/cliente.py"]}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "generacion_inicio", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "consumo_llm", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {"disponible": true, "input_tokens": 210, "output_tokens": 18, "total_tokens": 228}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "generacion_fin", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {"respuesta_len": 61}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "consulta_fin", "trace_id": "trace-49d27ed91b7b42f391b1b5efc8602280", "origen": "simulado", "datos": {"estado": "completada"}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "consulta_recibida", "trace_id": "trace-156415c84d204f4e8883fb20cd81d8e6", "origen": "simulado", "datos": {"pregunta_len": 56}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "recuperacion_inicio", "trace_id": "trace-156415c84d204f4e8883fb20cd81d8e6", "origen": "simulado", "datos": {}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "recuperacion_fin", "trace_id": "trace-156415c84d204f4e8883fb20cd81d8e6", "origen": "simulado", "datos": {"n_documentos": 1}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "contexto_filtrado", "trace_id": "trace-156415c84d204f4e8883fb20cd81d8e6", "origen": "simulado", "datos": {"n_limpios": 1, "n_descartados": 0, "fuentes": ["src/agente_con_memoria.py"]}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "generacion_inicio", "trace_id": "trace-156415c84d204f4e8883fb20cd81d8e6", "origen": "simulado", "datos": {}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "consumo_llm", "trace_id": "trace-156415c84d204f4e8883fb20cd81d8e6", "origen": "simulado", "datos": {"disponible": true, "input_tokens": 120, "output_tokens": 12, "total_tokens": 132}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "generacion_fin", "trace_id": "trace-156415c84d204f4e8883fb20cd81d8e6", "origen": "simulado", "datos": {"respuesta_len": 48}}
+{"ts": "2026-11-14T22:00:07+00:00", "level": "INFO", "evento": "consulta_fin", "trace_id": "trace-156415c84d204f4e8883fb20cd81d8e6", "origen": "simulado", "datos": {"estado": "completada"}}

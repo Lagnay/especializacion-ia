@@ -72,6 +72,10 @@ históricos conservan la información obtenida en cada actividad.
 - [Bloque 30 — Decisión fundamentada de personalización](modulo_02/unidad_2_6/bloque_30/decision_personalizacion.md).
 - [Bloque 30 — Costos, evaluación y apunte de estudio](modulo_02/unidad_2_6/bloque_30/ESTUDIO_PERSONALIZACION.md).
 
+### Unidad 2.7
+
+- [Bloque 31 — Logging estructurado y mitigación de inyección de prompt](modulo_02/unidad_2_7/bloque_31/LOGGING_Y_MITIGACION_RAG.md).
+
 ## Laboratorio de prácticas
 
 Los ejercicios y las versiones didácticas están separados del código
