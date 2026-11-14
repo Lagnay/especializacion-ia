@@ -69,6 +69,8 @@ históricos conservan la información obtenida en cada actividad.
 ### Unidad 2.6
 
 - [Bloque 29 — Dataset validado para personalización](modulo_02/unidad_2_6/bloque_29/DATASET_PERSONALIZACION.md).
+- [Bloque 30 — Decisión fundamentada de personalización](modulo_02/unidad_2_6/bloque_30/decision_personalizacion.md).
+- [Bloque 30 — Costos, evaluación y apunte de estudio](modulo_02/unidad_2_6/bloque_30/ESTUDIO_PERSONALIZACION.md).
 
 ## Laboratorio de prácticas
 

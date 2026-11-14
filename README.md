@@ -532,6 +532,36 @@ no está integrada en el enrutador existente.
 Las prácticas, los criterios y los límites del entrenamiento están en
 [Dataset validado para personalización](docs/modulo_02/unidad_2_6/bloque_29/DATASET_PERSONALIZACION.md).
 
+### Evaluación del clasificador y decisión de personalización
+
+Para comprobar la preparación de los veinte casos sin consultas:
+
+```powershell
+python -m src.evaluar_clasificacion
+```
+
+Con `GEMINI_API_KEY` configurada, para consultar los casos pendientes:
+
+```powershell
+python -m src.evaluar_clasificacion --ejecutar
+```
+
+La ejecución consulta Gemini y consume cuota. Guarda la respuesta original,
+la etiqueta normalizada, el cumplimiento de formato y la categoría esperada
+en `docs/modulo_02/unidad_2_6/bloque_30/evaluacion_clasificacion.json`.
+
+El mismo comando permite reanudar omitiendo respuestas guardadas.
+Si cambian los casos o la configuración, utiliza otro archivo mediante
+`--registro`. Ante un error de cuota, el lote se detiene; revisa el error
+antes de reanudar.
+
+La muestra incluida obtuvo veinte categorías correctas y cero
+incumplimientos de formato. La decisión actual mantiene las instrucciones
+y la normalización del clasificador, y pospone el entrenamiento.
+
+Consulta la [decisión fundamentada](docs/modulo_02/unidad_2_6/bloque_30/decision_personalizacion.md)
+y el [apunte de estudio y reproducción](docs/modulo_02/unidad_2_6/bloque_30/ESTUDIO_PERSONALIZACION.md).
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -827,6 +857,16 @@ Las 18 pruebas se ejecutan localmente. Comprueban entradas y salidas
 inválidas, duplicados, cantidad mínima y cobertura de categorías.
 No entrenan ni evalúan un modelo personalizado.
 
+Para comprobar el método de decisión y el evaluador del clasificador:
+
+```powershell
+python -m pytest tests/test_decision_personalizacion.py tests/test_evaluar_clasificacion.py -v
+```
+
+Las 30 pruebas comprueban puntajes, empates, entradas inválidas,
+formato, clasificación, guardado y reanudación mediante simulaciones
+y archivos temporales. No consultan Gemini.
+
 En el entorno probado aparecen advertencias de deprecación
 de `google-genai`, relacionadas con `_UnionGenericAlias`,
 y de Chroma, relacionadas con `asyncio.iscoroutinefunction`.
@@ -921,6 +961,10 @@ Ejecutar `python -m src.registro_rag --ejecutar` añade un registro de
 evidencia al JSONL del bloque 28, por lo que puede generar cambios
 esperados en Git. `python -m src.resumir_registro_rag` solamente lee
 el archivo seleccionado.
+
+Ejecutar `python -m src.evaluar_clasificacion --ejecutar` puede crear
+o actualizar el registro del bloque 30, por lo que pueden aparecer
+cambios esperados en Git. Sin `--ejecutar`, solo muestra la preparación.
 
 ## Estructura
 

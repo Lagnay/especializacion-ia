@@ -1,0 +1,333 @@
+{
+  "inicio": "2026-11-14T15:46:13.609203+00:00",
+  "configuracion": {
+    "modelo": {
+      "model": "gemini-3.5-flash-lite",
+      "vertexai": false,
+      "timeout": 30,
+      "max_retries": 0
+    },
+    "codigo_clasificador": "def construir_paso_clasificacion_original(modelo):\n    plantilla = PromptTemplate.from_template(\n        \"Clasifica la intención principal del mensaje de un cliente.\\n\\n\"\n        \"Categorías:\\n\"\n        \"- queja: informa un problema o incumplimiento \"\n        \"y busca atención, aunque lo formule como una pregunta.\\n\"\n        \"- pregunta: solicita información sin plantear \"\n        \"un problema concreto ni una propuesta de mejora.\\n\"\n        \"- sugerencia: propone una mejora.\\n\"\n        \"- desconocida: es un saludo, no contiene información \"\n        \"suficiente o no permite identificar una intención clara.\\n\\n\"\n        \"Si el mensaje combina un problema concreto que requiere \"\n        \"atención con una propuesta de mejora, prioriza queja. \"\n        \"Devuelve únicamente una de estas palabras: \"\n        \"pregunta, queja, sugerencia o desconocida. \"\n        \"No respondas al cliente ni expliques tu clasificación.\\n\\n\"\n        \"Mensaje:\\n{mensaje}\"\n    )\n\n    return (\n        plantilla\n        | modelo\n        | StrOutputParser()\n    )\n",
+    "codigo_normalizacion": "def normalizar_categoria(texto):\n    return texto.strip().lower().removesuffix(\".\").strip()\n",
+    "criterio_formato": "Etiqueta exacta tras quitar espacios exteriores.",
+    "categorias": [
+      "desconocida",
+      "pregunta",
+      "queja",
+      "sugerencia"
+    ],
+    "umbral_incumplimientos_formato": 3
+  },
+  "casos": [
+    {
+      "id": "C01",
+      "mensaje": "¿Pueden corregir el cobro duplicado de mi compra?",
+      "categoria_esperada": "queja"
+    },
+    {
+      "id": "C02",
+      "mensaje": "Mi entrega estaba confirmada para ayer y todavía no llega.",
+      "categoria_esperada": "queja"
+    },
+    {
+      "id": "C03",
+      "mensaje": "Compré arroz integral, pero recibí arroz blanco.",
+      "categoria_esperada": "queja"
+    },
+    {
+      "id": "C04",
+      "mensaje": "El envase de leche llegó abierto y necesito una solución.",
+      "categoria_esperada": "queja"
+    },
+    {
+      "id": "C05",
+      "mensaje": "Faltó un producto de mi compra; además sugiero revisar los pedidos antes de enviarlos.",
+      "categoria_esperada": "queja"
+    },
+    {
+      "id": "C06",
+      "mensaje": "Sería útil poder buscar productos por marca.",
+      "categoria_esperada": "sugerencia"
+    },
+    {
+      "id": "C07",
+      "mensaje": "Propongo mostrar el precio por kilo junto al precio del envase.",
+      "categoria_esperada": "sugerencia"
+    },
+    {
+      "id": "C08",
+      "mensaje": "¿Podrían incorporar una opción para repetir una compra anterior?",
+      "categoria_esperada": "sugerencia"
+    },
+    {
+      "id": "C09",
+      "mensaje": "Me gustaría que hubiera una sección de productos de temporada.",
+      "categoria_esperada": "sugerencia"
+    },
+    {
+      "id": "C10",
+      "mensaje": "Sugiero añadir fotografías de los ingredientes de cada producto.",
+      "categoria_esperada": "sugerencia"
+    },
+    {
+      "id": "C11",
+      "mensaje": "¿Dónde puedo ver el estado de mi compra?",
+      "categoria_esperada": "pregunta"
+    },
+    {
+      "id": "C12",
+      "mensaje": "¿Qué medios de pago aceptan?",
+      "categoria_esperada": "pregunta"
+    },
+    {
+      "id": "C13",
+      "mensaje": "¿Qué datos necesitan para emitir una factura?",
+      "categoria_esperada": "pregunta"
+    },
+    {
+      "id": "C14",
+      "mensaje": "¿En qué horario atienden?",
+      "categoria_esperada": "pregunta"
+    },
+    {
+      "id": "C15",
+      "mensaje": "¿Tienen arroz integral disponible?",
+      "categoria_esperada": "pregunta"
+    },
+    {
+      "id": "C16",
+      "mensaje": "Gracias, eso era todo.",
+      "categoria_esperada": "desconocida"
+    },
+    {
+      "id": "C17",
+      "mensaje": "Hola, buenas tardes.",
+      "categoria_esperada": "desconocida"
+    },
+    {
+      "id": "C18",
+      "mensaje": "De acuerdo.",
+      "categoria_esperada": "desconocida"
+    },
+    {
+      "id": "C19",
+      "mensaje": "P-582.",
+      "categoria_esperada": "desconocida"
+    },
+    {
+      "id": "C20",
+      "mensaje": "Necesito algo.",
+      "categoria_esperada": "desconocida"
+    }
+  ],
+  "resultados": [
+    {
+      "id": "C01",
+      "mensaje": "¿Pueden corregir el cobro duplicado de mi compra?",
+      "categoria_esperada": "queja",
+      "fecha": "2026-11-14T15:46:15.288704+00:00",
+      "respuesta_original": "queja",
+      "categoria_normalizada": "queja",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C02",
+      "mensaje": "Mi entrega estaba confirmada para ayer y todavía no llega.",
+      "categoria_esperada": "queja",
+      "fecha": "2026-11-14T15:46:17.318872+00:00",
+      "respuesta_original": "queja",
+      "categoria_normalizada": "queja",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C03",
+      "mensaje": "Compré arroz integral, pero recibí arroz blanco.",
+      "categoria_esperada": "queja",
+      "fecha": "2026-11-14T15:46:18.860489+00:00",
+      "respuesta_original": "queja",
+      "categoria_normalizada": "queja",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C04",
+      "mensaje": "El envase de leche llegó abierto y necesito una solución.",
+      "categoria_esperada": "queja",
+      "fecha": "2026-11-14T15:46:20.155900+00:00",
+      "respuesta_original": "queja",
+      "categoria_normalizada": "queja",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C05",
+      "mensaje": "Faltó un producto de mi compra; además sugiero revisar los pedidos antes de enviarlos.",
+      "categoria_esperada": "queja",
+      "fecha": "2026-11-14T15:46:21.314643+00:00",
+      "respuesta_original": "queja",
+      "categoria_normalizada": "queja",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C06",
+      "mensaje": "Sería útil poder buscar productos por marca.",
+      "categoria_esperada": "sugerencia",
+      "fecha": "2026-11-14T15:46:22.067121+00:00",
+      "respuesta_original": "sugerencia",
+      "categoria_normalizada": "sugerencia",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C07",
+      "mensaje": "Propongo mostrar el precio por kilo junto al precio del envase.",
+      "categoria_esperada": "sugerencia",
+      "fecha": "2026-11-14T15:46:23.004869+00:00",
+      "respuesta_original": "sugerencia",
+      "categoria_normalizada": "sugerencia",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C08",
+      "mensaje": "¿Podrían incorporar una opción para repetir una compra anterior?",
+      "categoria_esperada": "sugerencia",
+      "fecha": "2026-11-14T15:46:24.766983+00:00",
+      "respuesta_original": "sugerencia",
+      "categoria_normalizada": "sugerencia",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C09",
+      "mensaje": "Me gustaría que hubiera una sección de productos de temporada.",
+      "categoria_esperada": "sugerencia",
+      "fecha": "2026-11-14T15:46:25.576676+00:00",
+      "respuesta_original": "sugerencia",
+      "categoria_normalizada": "sugerencia",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C10",
+      "mensaje": "Sugiero añadir fotografías de los ingredientes de cada producto.",
+      "categoria_esperada": "sugerencia",
+      "fecha": "2026-11-14T15:46:26.324089+00:00",
+      "respuesta_original": "sugerencia",
+      "categoria_normalizada": "sugerencia",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C11",
+      "mensaje": "¿Dónde puedo ver el estado de mi compra?",
+      "categoria_esperada": "pregunta",
+      "fecha": "2026-11-14T15:46:27.039272+00:00",
+      "respuesta_original": "pregunta",
+      "categoria_normalizada": "pregunta",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C12",
+      "mensaje": "¿Qué medios de pago aceptan?",
+      "categoria_esperada": "pregunta",
+      "fecha": "2026-11-14T15:46:28.152121+00:00",
+      "respuesta_original": "pregunta",
+      "categoria_normalizada": "pregunta",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C13",
+      "mensaje": "¿Qué datos necesitan para emitir una factura?",
+      "categoria_esperada": "pregunta",
+      "fecha": "2026-11-14T15:46:29.433166+00:00",
+      "respuesta_original": "pregunta",
+      "categoria_normalizada": "pregunta",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C14",
+      "mensaje": "¿En qué horario atienden?",
+      "categoria_esperada": "pregunta",
+      "fecha": "2026-11-14T15:46:30.728698+00:00",
+      "respuesta_original": "pregunta",
+      "categoria_normalizada": "pregunta",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C15",
+      "mensaje": "¿Tienen arroz integral disponible?",
+      "categoria_esperada": "pregunta",
+      "fecha": "2026-11-14T15:46:31.673004+00:00",
+      "respuesta_original": "pregunta",
+      "categoria_normalizada": "pregunta",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C16",
+      "mensaje": "Gracias, eso era todo.",
+      "categoria_esperada": "desconocida",
+      "fecha": "2026-11-14T15:51:29.515678+00:00",
+      "respuesta_original": "desconocida",
+      "categoria_normalizada": "desconocida",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C17",
+      "mensaje": "Hola, buenas tardes.",
+      "categoria_esperada": "desconocida",
+      "fecha": "2026-11-14T15:51:30.659957+00:00",
+      "respuesta_original": "desconocida",
+      "categoria_normalizada": "desconocida",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C18",
+      "mensaje": "De acuerdo.",
+      "categoria_esperada": "desconocida",
+      "fecha": "2026-11-14T15:51:32.803698+00:00",
+      "respuesta_original": "desconocida",
+      "categoria_normalizada": "desconocida",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C19",
+      "mensaje": "P-582.",
+      "categoria_esperada": "desconocida",
+      "fecha": "2026-11-14T15:51:34.282763+00:00",
+      "respuesta_original": "desconocida",
+      "categoria_normalizada": "desconocida",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    },
+    {
+      "id": "C20",
+      "mensaje": "Necesito algo.",
+      "categoria_esperada": "desconocida",
+      "fecha": "2026-11-14T15:51:35.032734+00:00",
+      "respuesta_original": "desconocida",
+      "categoria_normalizada": "desconocida",
+      "formato_correcto": true,
+      "categoria_correcta": true
+    }
+  ],
+  "errores": [
+    {
+      "id": "C16",
+      "fecha": "2026-11-14T15:46:31.992214+00:00",
+      "tipo": "GoogleRateLimitError",
+      "detalle": "Error calling model 'gemini-3.5-flash-lite' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 28.876091064s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3.5-flash-lite', 'location': 'global'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '28s'}]}}"
+    }
+  ]
+}

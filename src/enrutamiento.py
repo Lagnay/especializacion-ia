@@ -55,7 +55,7 @@ def normalizar_categoria(texto):
     return texto.strip().lower().removesuffix(".").strip()
 
 
-def construir_paso_clasificacion(modelo):
+def construir_paso_clasificacion_original(modelo):
     plantilla = PromptTemplate.from_template(
         "Clasifica la intención principal del mensaje de un cliente.\n\n"
         "Categorías:\n"
@@ -78,6 +78,12 @@ def construir_paso_clasificacion(modelo):
         plantilla
         | modelo
         | StrOutputParser()
+    )
+
+
+def construir_paso_clasificacion(modelo):
+    return (
+        construir_paso_clasificacion_original(modelo)
         | normalizar_categoria
     )
 
