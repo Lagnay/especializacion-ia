@@ -589,6 +589,29 @@ La evidencia incluida contiene 17 eventos de dos consultas simuladas.
 Los límites del filtro, la política de registro y la reproducción están en
 [Logging y mitigación de inyección de prompt](docs/modulo_02/unidad_2_7/bloque_31/LOGGING_Y_MITIGACION_RAG.md).
 
+### Versionado de prompts y matriz de riesgos
+
+Para consultar las versiones registradas y la matriz del laboratorio:
+
+```powershell
+python -m src.registro_prompts
+python -m src.matriz_riesgos
+```
+
+Para revisar una propuesta y aprobarla o rechazarla por consola:
+
+```powershell
+python -m src.grafo_supervision
+```
+
+La decisión selecciona una versión en el estado local de la solicitud.
+La demostración utiliza memoria durante el proceso y no modifica
+automáticamente la instrucción del flujo RAG existente.
+
+Los comandos no consultan APIs. Las versiones, su procedencia de validación,
+la persistencia SQLite comprobada y los cinco riesgos se documentan en
+[Versionado, supervisión y matriz de riesgos](docs/modulo_02/unidad_2_7/bloque_32/VERSIONADO_SUPERVISION_Y_RIESGOS.md).
+
 ### Procesamiento y evaluación de texto
 
 `src/pipeline_texto.py` contiene las funciones de limpieza,
@@ -903,6 +926,16 @@ python -m pytest tests/test_seguridad_rag.py tests/test_logging_rag.py -v
 Las 34 pruebas utilizan datos locales, simulaciones y archivos temporales.
 Comprueban mensajes, citas, eventos JSON, consumo, errores,
 restauración del contexto y persistencia, sin consultar APIs.
+
+Para comprobar el registro de versiones, la supervisión y los riesgos:
+
+```powershell
+python -m pytest tests/test_registro_prompts.py tests/test_grafo_supervision.py tests/test_matriz_riesgos.py -v
+```
+
+Las 52 pruebas comprueban copias independientes, huellas, decisiones,
+bloqueos, recuperación desde SQLite y clasificación de riesgos.
+Utilizan datos locales y archivos temporales, sin consultar APIs.
 
 En el entorno probado aparecen advertencias de deprecación
 de `google-genai`, relacionadas con `_UnionGenericAlias`,

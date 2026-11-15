@@ -22,3 +22,6 @@ Thumbs.db
 
 # Base de vectores generada
 /vectorstore/
+
+# Estados locales de supervisión
+/checkpoints/

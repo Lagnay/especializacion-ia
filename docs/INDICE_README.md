@@ -75,6 +75,7 @@ históricos conservan la información obtenida en cada actividad.
 ### Unidad 2.7
 
 - [Bloque 31 — Logging estructurado y mitigación de inyección de prompt](modulo_02/unidad_2_7/bloque_31/LOGGING_Y_MITIGACION_RAG.md).
+- [Bloque 32 — Versionado de prompts, supervisión y matriz de riesgos](modulo_02/unidad_2_7/bloque_32/VERSIONADO_SUPERVISION_Y_RIESGOS.md).
 
 ## Laboratorio de prácticas
 
