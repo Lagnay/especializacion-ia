@@ -10,7 +10,10 @@ from uuid import uuid4
 from langchain_core.messages import AIMessage
 
 from src.recuperacion import resolver_citas
-from src.seguridad_rag import construir_mensajes_filtrados
+from src.seguridad_rag import (
+    INSTRUCCION_SISTEMA,
+    construir_mensajes_filtrados,
+)
 
 
 trace_id_var = ContextVar("rag_trace_id", default=None)
@@ -80,7 +83,23 @@ def registrar_consumo(respuesta):
     return dict(uso) if uso is not None else None
 
 
-def procesar_consulta(pregunta, recuperar, modelo, *, origen):
+def procesar_consulta(
+    pregunta,
+    recuperar,
+    modelo,
+    *,
+    origen,
+    instruccion_sistema=INSTRUCCION_SISTEMA,
+    exigir_citas=False,
+):
+    if not isinstance(exigir_citas, bool):
+        raise TypeError("exigir_citas debe ser True o False.")
+    if not isinstance(instruccion_sistema, str):
+        raise TypeError("La instrucción de sistema debe ser texto.")
+    if not instruccion_sistema.strip():
+        raise ValueError(
+            "La instrucción de sistema no puede estar vacía."
+        )
     if not isinstance(pregunta, str):
         raise TypeError("La pregunta debe ser texto.")
 
@@ -99,6 +118,9 @@ def procesar_consulta(pregunta, recuperar, modelo, *, origen):
         registrar_evento(
             "consulta_recibida",
             pregunta_len=len(pregunta),
+            prompt_huella=hashlib.sha256(
+                instruccion_sistema.encode("utf-8")
+            ).hexdigest(),
         )
 
         etapa = "recuperacion"
@@ -111,7 +133,9 @@ def procesar_consulta(pregunta, recuperar, modelo, *, origen):
 
         etapa = "filtrado"
         mensajes, citas, descartados = construir_mensajes_filtrados(
-            pregunta, documentos
+            pregunta,
+            documentos,
+            instruccion_sistema=instruccion_sistema,
         )
 
         for documento, patrones in descartados:
@@ -160,6 +184,27 @@ def procesar_consulta(pregunta, recuperar, modelo, *, origen):
                 respuesta_len=len(texto),
             )
 
+        etapa = "citacion"
+        fuentes_citadas = resolver_citas(texto, citas)
+
+        if exigir_citas and estado == "completada":
+            if (
+                not fuentes_citadas
+                or any(
+                    fuente is None
+                    for fuente in fuentes_citadas.values()
+                )
+            ):
+                raise ValueError(
+                    "La respuesta no incluye referencias válidas "
+                    "al contexto aceptado."
+                )
+
+            registrar_evento(
+                "referencias_validadas",
+                n_referencias=len(fuentes_citadas),
+            )
+
         registrar_evento("consulta_fin", estado=estado)
 
         return {
@@ -168,7 +213,7 @@ def procesar_consulta(pregunta, recuperar, modelo, *, origen):
             "estado": estado,
             "respuesta": texto,
             "citas": citas,
-            "fuentes_citadas": resolver_citas(texto, citas),
+            "fuentes_citadas": fuentes_citadas,
             "n_recuperados": len(documentos),
             "n_descartados": len(descartados),
             "tokens": tokens,

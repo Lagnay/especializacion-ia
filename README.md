@@ -16,6 +16,10 @@ También incluye agentes que consultan stock y estados de pedidos
 ficticios mediante herramientas, con una implementación que incorpora
 argumentos estructurados y memoria de conversación por sesión.
 
+El [servicio RAG del Gate 2](#servicio-rag-integrado-gate-2) integra
+recuperación documental, respuestas con fuentes, medición de consumo
+y tiempos, logging y uso de instrucciones aprobadas previamente.
+
 ## Requisitos
 
 - Git y acceso a Internet para obtener el repositorio y sus dependencias.
@@ -56,7 +60,9 @@ La política de ejecución se configura solamente para esta
 sesión de PowerShell. Al abrir otra terminal puede ser
 necesario repetir ese comando antes de activar el entorno.
 
-Continúa con «Configuración de Gemini» y después con «Uso».
+Continúa con [Servicio RAG integrado (Gate 2)](#servicio-rag-integrado-gate-2).
+El ensayo simulado no necesita credencial. Para consultas reales, completa
+primero [Configuración de Gemini](#configuración-de-gemini).
 
 ## Instalación en macOS / Linux / WSL
 
@@ -91,13 +97,15 @@ source venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-Continúa con «Configuración de Gemini» y después con «Uso».
+Continúa con [Servicio RAG integrado (Gate 2)](#servicio-rag-integrado-gate-2).
+El ensayo simulado no necesita credencial. Para consultas reales, completa
+primero [Configuración de Gemini](#configuración-de-gemini).
 Los comandos que comienzan con `python` en las secciones
 siguientes se ejecutan con este entorno virtual activo.
 
 ## Configuración de Gemini
 
-Se necesita una credencial propia de Gemini API.
+Las consultas reales requieren una credencial propia de Gemini API. Las pruebas y el modo simulado funcionan sin ella.
 
 Desde la raíz del repositorio, crear `.env` a partir de
 la plantilla, únicamente si todavía no existe.
@@ -113,7 +121,9 @@ if (-not (Test-Path -LiteralPath ".env")) {
 En macOS / Linux / WSL, si `.env` todavía no existe:
 
 ```bash
-cp .env.example .env
+if [ ! -e .env ]; then
+    cp .env.example .env
+fi
 ```
 
 Abrir `.env` con un editor y reemplazar el valor ficticio
@@ -126,7 +136,66 @@ utilizarse `code .env`.
 La credencial real permanece únicamente en la configuración
 local. `.env.example` conserva un valor ficticio.
 
+## Servicio RAG integrado (Gate 2)
+
+Desde la raíz del repositorio, con las dependencias instaladas:
+
+```powershell
+python -m src.cli_servicio_rag
+```
+
+Muestra la preparación sin realizar consultas ni escribir estados.
+
+En una instalación nueva, revisa el prompt y registra tu decisión:
+
+```powershell
+python -m src.cli_servicio_rag --aprobar-prompt
+```
+
+La aprobación se conserva en SQLite y se reutiliza en las consultas.
+Puedes consultar su estado con `--ver-prompt`. Para una propuesta nueva,
+utiliza otro identificador mediante `--solicitud` y selecciónalo también
+al consultar.
+
+Para ejecutar el ensayo local sin credencial:
+
+```powershell
+python -m src.cli_servicio_rag --simular
+```
+
+Utiliza una pregunta fija, embeddings locales y respuesta preparada.
+Crea o reutiliza un índice simulado separado; no evalúa calidad semántica.
+
+Para consultas reales, configura `GEMINI_API_KEY` en `.env`.
+La indexación explícita genera los embeddings pendientes:
+
+```powershell
+python -m src.indexar_corpus --ejecutar
+python -m src.cli_servicio_rag --ejecutar --pregunta "¿Cuántos intentos permite el cliente REST?" --k 3
+```
+
+El servicio utiliza el prompt aprobado, filtra el contexto y comprueba
+las referencias. Muestra respuesta, fuentes, consumo, tiempos y costo
+de generación de referencia, que no incluye embeddings ni acredita
+un cargo real.
+
+Los índices y estados locales están excluidos de Git. Las consultas
+añaden eventos a `docs/modulo_02/unidad_2_8/bloque_s1/trazas_servicio.jsonl`.
+Para otros ensayos puedes elegir otro archivo mediante `--registro`.
+
+Autochequeos locales del Gate:
+
+```powershell
+python -m pytest tests/test_gate2.py -v
+```
+
+Consulta el [informe de integración y evidencias](docs/modulo_02/unidad_2_8/bloque_s1/GATE2_INTEGRACION_Y_ORQUESTACION.md)
+y el [ensayo de instalación limpia](docs/modulo_02/unidad_2_8/bloque_s1/ENSAYO_INSTALACION_LIMPIA.md).
+
 ## Uso
+
+Esta sección conserva la práctica inicial de conexión con Gemini.
+El ejecutable integrado del Gate 2 se describe en la sección anterior.
 
 Desde la raíz del repositorio, con el entorno virtual activo
 y la credencial configurada en `.env`, ejecutar:
@@ -604,9 +673,11 @@ Para revisar una propuesta y aprobarla o rechazarla por consola:
 python -m src.grafo_supervision
 ```
 
-La decisión selecciona una versión en el estado local de la solicitud.
-La demostración utiliza memoria durante el proceso y no modifica
-automáticamente la instrucción del flujo RAG existente.
+Esta demostración independiente selecciona una versión en el estado local
+de la solicitud y utiliza memoria durante el proceso. No modifica
+la instrucción de otros ejecutables. El servicio integrado del
+[Gate 2](#servicio-rag-integrado-gate-2) utiliza su propia aprobación
+persistida en SQLite y sí incorpora el texto aprobado a la consulta.
 
 Los comandos no consultan APIs. Las versiones, su procedencia de validación,
 la persistencia SQLite comprobada y los cinco riesgos se documentan en

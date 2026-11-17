@@ -88,7 +88,7 @@ RUTA_REGISTRO = (
 )
 
 
-def construir_componentes():
+def construir_componentes(*, cliente_chroma=None):
     from chromadb.config import Settings
     from chromadb.errors import NotFoundError
     from dotenv import load_dotenv
@@ -132,6 +132,7 @@ def construir_componentes():
             embedding_function=None,
             create_collection_if_not_exists=False,
             client_settings=Settings(anonymized_telemetry=False),
+            client=cliente_chroma,
         )
     except NotFoundError as error:
         raise FileNotFoundError(

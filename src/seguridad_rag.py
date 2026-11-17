@@ -59,7 +59,18 @@ def filtrar_documentos(documentos):
     return aceptados, descartados
 
 
-def construir_mensajes_filtrados(pregunta, documentos):
+def construir_mensajes_filtrados(
+    pregunta,
+    documentos,
+    *,
+    instruccion_sistema=INSTRUCCION_SISTEMA,
+):
+    if not isinstance(instruccion_sistema, str):
+        raise TypeError("La instrucción de sistema debe ser texto.")
+    if not instruccion_sistema.strip():
+        raise ValueError(
+            "La instrucción de sistema no puede estar vacía."
+        )
     if not isinstance(pregunta, str):
         raise TypeError("La pregunta debe ser texto.")
 
@@ -80,7 +91,7 @@ def construir_mensajes_filtrados(pregunta, documentos):
     contexto = escape(contexto, quote=False)
 
     mensajes = [
-        SystemMessage(content=INSTRUCCION_SISTEMA),
+        SystemMessage(content=instruccion_sistema),
         HumanMessage(
             content=(
                 "Contexto de referencia:\n"

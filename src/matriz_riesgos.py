@@ -88,19 +88,19 @@ MIS_RIESGOS = [
             "en todas las consultas posteriores."
         ),
         "mitigacion": (
-            "Registro de versiones con texto, huella y procedencia "
-            "de validación. Grafo con aprobación humana, comprobación "
-            "de la huella completa y bloqueo de solicitudes ya "
-            "resueltas (Bloque 32)."
+            "Registro de versiones, revisión de diferencias y aprobación "
+            "vinculada a la huella completa (Bloque 32). El servicio "
+            "integrado del Gate 2 comprueba esa aprobación y utiliza "
+            "el texto correspondiente."
         ),
         "supervision": (
             "Revisar el texto y sus diferencias antes de autorizar "
             "la versión propuesta."
         ),
         "pendiente": (
-            "La aprobación selecciona una versión en el estado local "
-            "de la solicitud. Todavía no controla automáticamente "
-            "la instrucción utilizada por el flujo RAG existente."
+            "El control se aplica al servicio integrado del Gate 2. "
+            "Los programas históricos conservan sus propios puntos "
+            "de entrada. No se implementa autenticación de revisores."
         ),
     },
     {

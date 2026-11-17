@@ -77,6 +77,11 @@ históricos conservan la información obtenida en cada actividad.
 - [Bloque 31 — Logging estructurado y mitigación de inyección de prompt](modulo_02/unidad_2_7/bloque_31/LOGGING_Y_MITIGACION_RAG.md).
 - [Bloque 32 — Versionado de prompts, supervisión y matriz de riesgos](modulo_02/unidad_2_7/bloque_32/VERSIONADO_SUPERVISION_Y_RIESGOS.md).
 
+### Unidad 2.8 — Gate 2
+
+- [Integración, orquestación y evidencias](modulo_02/unidad_2_8/bloque_s1/GATE2_INTEGRACION_Y_ORQUESTACION.md).
+- [Ensayo de instalación limpia](modulo_02/unidad_2_8/bloque_s1/ENSAYO_INSTALACION_LIMPIA.md).
+
 ## Laboratorio de prácticas
 
 Los ejercicios y las versiones didácticas están separados del código

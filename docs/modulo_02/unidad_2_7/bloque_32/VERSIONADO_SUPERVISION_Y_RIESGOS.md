@@ -10,6 +10,12 @@ La matriz identifica cinco riesgos del laboratorio, sus estimaciones, controles 
 
 Este bloque no realiza consultas nuevas a Gemini. La activación demostrada no modifica automáticamente la instrucción del flujo RAG existente ni constituye un despliegue.
 
+Nota de continuidad, 16 de noviembre de 2026: el
+[Gate 2](../../unidad_2_8/bloque_s1/GATE2_INTEGRACION_Y_ORQUESTACION.md)
+integra después la aprobación persistente con el servicio RAG y utiliza
+el texto aprobado en sus consultas. Este documento conserva el alcance
+y los resultados históricos del Bloque 32, revisados el 15 de noviembre.
+
 ## Componentes
 
 | Componente | Función |
